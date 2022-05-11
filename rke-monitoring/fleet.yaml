@@ -1,0 +1,3 @@
+defaultNamespace: cattle-monitoring-system
+helm:
+  releaseName: rke-monitoring

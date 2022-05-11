@@ -1,0 +1,3 @@
+defaultNamespace: fleet-local
+helm:
+  releaseName: rke-cluster-fleet

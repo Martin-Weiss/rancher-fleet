@@ -1,0 +1,7 @@
+apiVersion: cis.cattle.io/v1
+kind: ClusterScan
+metadata:
+  name: scan-one-time
+spec:
+  scanProfileName: rke2-cis-1.6-profile-hardened-custom
+  scoreWarning: pass

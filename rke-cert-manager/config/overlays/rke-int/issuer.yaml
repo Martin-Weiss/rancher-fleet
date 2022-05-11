@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: rke-int-ca-issuer
+  namespace: cert-manager
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rke-int.suse
+  namespace: cert-manager
+spec:
+  secretName: rke-int-ca
+  issuerRef:
+    name: rke-int-ca-issuer
+  commonName: rke-int.suse
+  isCA: true
+  dnsNames:
+  - "rke-int.suse"
+  - "*.rke-int.suse"
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: rke-int-issuer
+  namespace: cert-manager
+spec:
+  ca:
+    secretName: rke-int-ca
+

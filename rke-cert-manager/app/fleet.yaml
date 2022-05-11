@@ -1,0 +1,50 @@
+defaultNamespace: cert-manager
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "1.8.0"
+  chart: cert-manager
+  releaseName: cert-manager
+  values:
+    global:
+      podSecurityPolicy:
+        enabled: true
+    installCRDs: true
+    replicaCount: 3
+    webhook:
+      replicaCount: 3
+    cainjector:
+      replicaCount: 3
+targetCustomizations:
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "1.8.0"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "1.8.0"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+      stage: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "1.8.0"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
+- name: local
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "1.8.0"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local

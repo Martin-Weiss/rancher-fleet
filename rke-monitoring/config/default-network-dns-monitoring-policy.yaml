@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-network-dns-monitoring-policy
+  namespace: kube-system
+spec:
+  ingress:
+  - ports:
+    - port: 9153
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      k8s-app: kube-dns
+  policyTypes:
+  - Ingress

@@ -1,0 +1,8 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-metrics-server
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    replicas: 3

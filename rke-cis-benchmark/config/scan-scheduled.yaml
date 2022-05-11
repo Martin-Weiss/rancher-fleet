@@ -1,0 +1,14 @@
+apiVersion: cis.cattle.io/v1
+kind: ClusterScan
+metadata:
+  name: scan-scheduled
+  namespace: cis-operator-system 
+spec:
+  scanProfileName: rke2-cis-1.6-profile-hardened-custom
+  scheduledScanConfig:
+    cronSchedule: 17 3 * * 0
+    retentionCount: 4
+    scanAlertRule:
+      alertOnComplete: false
+      alertOnFailure: true
+  scoreWarning: pass

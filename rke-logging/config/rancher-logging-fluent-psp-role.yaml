@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: rancher-logging-fluent-psp-role
+  namespace: cattle-logging-system
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - system-unrestricted-psp
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use

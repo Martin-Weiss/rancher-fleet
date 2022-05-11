@@ -1,0 +1,3 @@
+defaultNamespace: cis-operator-system 
+helm:
+  releaseName: rke-cis-benchmark-config

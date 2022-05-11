@@ -1,0 +1,3 @@
+defaultNamespace: ceph-csi-rbd 
+helm:
+  releaseName: rke-ceph-csi-rbd

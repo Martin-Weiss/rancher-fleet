@@ -1,0 +1,22 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: syslog01.suse
+  namespace: cattle-logging-system
+spec:
+  syslog:
+    buffer:
+      total_limit_size: 2GB
+      flush_thread_count: 8
+      timekey: 10m
+      timekey_use_utc: true
+      timekey_wait: 1m
+    format:
+      app_name_field: kubernetes.pod_name
+      hostname_field: custom-cluster-based-hostname
+      log_field: message
+      rfc6587_message_size: false
+    host: syslog01.suse
+    insecure: true
+    port: 514
+    transport: udp

@@ -1,0 +1,3 @@
+defaultNamespace: cert-manager
+helm:
+  releaseName: rke-cert-manager

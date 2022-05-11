@@ -1,0 +1,3 @@
+defaultNamespace: cert-exporter
+helm:
+  releaseName: cert-exporter-agent

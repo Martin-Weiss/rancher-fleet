@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    k8s-app: cert-exporter-agent
+  name: cert-exporter-agent
+  namespace: cert-exporter
+spec:
+  selector:
+    matchLabels:
+      k8s-app: cert-exporter-agent
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        k8s-app: cert-exporter-agent
+    spec:
+      serviceAccountName: cert-exporter-agent
+      containers:
+      - image: joeelliott/cert-exporter:v2.7.0
+        name: cert-exporter-agent
+        command: ["./app"]
+        args:
+        - --secrets-include-glob=*.crt
+        - --include-cert-glob=/var/lib/rancher/rke2/agent/*.crt
+        - --logtostderr
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        volumeMounts: 
+          - mountPath: /var/lib/rancher/rke2/agent/
+            name: rke2-agent
+            readOnly: true             
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            cpu: 500m
+            memory: 400M
+      volumes: 
+        - name: rke2-agent
+          hostPath:
+            path: /var/lib/rancher/rke2/agent/
+            type: Directory    
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "system-components"
+          effect: "NoSchedule"
+        - effect: NoSchedule
+          operator: Exists
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cert-exporter-agent-metrics
+  namespace: cert-exporter
+  labels:
+    k8s-app: cert-exporter-agent-metrics
+spec:
+  selector:
+    k8s-app: cert-exporter-agent
+  ports:
+    - name: metrics
+      port: 8080
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: prometheus-operator-operator
+    prometheus: prometheus-operator-prometheus
+    release: prometheus-operator
+  name: cert-exporter-agent
+  namespace: cert-exporter
+spec:
+  endpoints:
+  - port: metrics
+    path: /metrics
+    interval: 20s
+  jobLabel: cert-exporter-agent-metrics
+  namespaceSelector:
+    matchNames:
+    - cert-exporter
+  selector:
+    matchLabels:
+      k8s-app: cert-exporter-agent-metrics
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-exporter-agent
+  namespace: cert-exporter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cert-exporter-agent
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cert-exporter-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cert-exporter-agent
+subjects:
+- kind: ServiceAccount
+  name: cert-exporter-agent
+  namespace: cert-exporter

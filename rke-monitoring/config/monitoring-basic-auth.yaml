@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  auth: CmFkbWluOiRhcHIxJDVNTnpoa0pZJHJ2aUZpL0ZQYjYuTGxmYXAyd1JKZS8K
+kind: Secret
+metadata:
+  name: monitoring-basic-auth
+  namespace: cattle-monitoring-system
+type: Opaque

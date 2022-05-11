@@ -1,0 +1,3 @@
+defaultNamespace: longhorn-system
+helm:
+  releaseName: rke-longhorn

@@ -1,0 +1,72 @@
+defaultNamespace: cattle-logging-system
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "100.1.1+up3.17.3"
+  chart: rancher-logging
+  releaseName: rancher-logging
+  values:
+    additionalLoggingSources:
+      rke2:
+        enabled: true
+    rbac:
+      psp:
+        enabled: true
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+    tolerations:
+      - key: cattle.io/os
+        operator: "Equal"
+        value: "linux"
+        effect: NoSchedule
+      - effect: NoExecute
+        key: CriticalAddonsOnly
+        value: "true"
+    fluentd:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 3200M
+        requests:
+          cpu: 500m
+          memory: 1600M
+    fluentbit:
+      resources:
+        limits:
+          memory: 200Mi
+        requests:
+          memory: 100Mi
+      tolerations:
+        - effect: NoExecute
+          key: CriticalAddonsOnly
+          value: "true"
+    fluentbit_tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+targetCustomizations:
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+      stage: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod

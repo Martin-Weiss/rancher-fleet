@@ -1,0 +1,21 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: default
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rbd.csi.ceph.com
+parameters:
+   clusterID: 40c6ac7e-b48c-11ea-ac77-52540020a5c7
+   pool: rke-int-default
+   imageFeatures: layering
+   csi.storage.k8s.io/provisioner-secret-name: storageclass-rke-int-default-secret
+   csi.storage.k8s.io/provisioner-secret-namespace: ceph-csi-rbd 
+   csi.storage.k8s.io/controller-expand-secret-name: storageclass-rke-int-default-secret
+   csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi-rbd
+   csi.storage.k8s.io/node-stage-secret-name: storageclass-rke-int-default-secret
+   csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi-rbd
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+mountOptions:
+   - discard

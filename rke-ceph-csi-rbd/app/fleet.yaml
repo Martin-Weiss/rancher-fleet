@@ -1,0 +1,61 @@
+defaultNamespace: ceph-csi-rbd
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "3.5.1"
+  chart: ceph-csi-rbd
+  releaseName: ceph-csi-rbd
+  values:
+    csiConfig:
+      - clusterID: "40c6ac7e-b48c-11ea-ac77-52540020a5c7"
+        monitors:
+          - "192.168.0.41:6789"
+          - "192.168.0.42:6789"
+          - "192.168.0.43:6789"
+    nodeplugin:
+      podSecurityPolicy:
+        enabled: true
+    provisioner:
+      replicaCount: 2
+      podSecurityPolicy:
+        enabled: true
+targetCustomizations:
+- name: local
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "3.5.1"
+    values:
+      provisioner:
+        replicaCount: 3
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "3.5.1"
+    values:
+      provisioner:
+        replicaCount: 3
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "3.5.1"
+    values:
+      provisioner:
+        replicaCount: 3
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "3.5.1"
+    values:
+      provisioner:
+        replicaCount: 3
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod

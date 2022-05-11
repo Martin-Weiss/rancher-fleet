@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rancher-monitoring-grafana-ldap
+  namespace: cattle-monitoring-system
+stringData:
+  ldap-toml: |
+    verbose_logging = true
+    [[servers]]
+    host = "ldap01.suse"
+    port = 636
+    use_ssl = true
+    start_tls = false
+    ssl_skip_verify = true
+    bind_dn = "uid=binduser-grafana,dc=suse"
+    bind_password = "suse1234"
+    search_filter = "(cn=%s)"
+    search_base_dns = ["dc=suse"]
+    # only for nested groups!
+    #group_search_filter = "(member:1.2.840.113556.1.4.1941:=%s)"
+    group_search_base_dns = ["dc=suse"]
+    group_search_filter = "(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))"
+    group_search_filter_user_attribute = "entryDN"
+    [servers.attributes]
+    name = "cn"
+    member_of = "memberOf"
+    email =  "mail"
+    username = "cn"
+    [[servers.group_mappings]]
+    group_dn = "cn=grafana-admins,ou=Groups,dc=suse"
+    org_role = "Admin"
+    grafana_admin = true # Available in Grafana v5.3 and above
+    # [[servers.group_mappings]]
+    # who should be editor?
+    # group_dn = ""
+    # org_role = "Editor"
+    # [[servers.group_mappings]]
+    # who should be viewer? - as long as we allow anonymous access and leave the mapping of anonymous to viewer we do not need this, here
+    # group_dn = ""
+    # org_role = "Viewer"
+    [[servers.group_mappings]]
+    group_dn = "cn=grafana-editors,ou=Groups,dc=suse"
+    org_role = "Editor"
+    [[servers.group_mappings]]
+    group_dn = "cn=grafana-viewers,ou=Groups,dc=suse"
+    org_role = "Viewer"

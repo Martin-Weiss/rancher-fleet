@@ -1,0 +1,45 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rancher-vsphere-csi
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    csiController:
+      csiResizer:
+        enabled: true
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "CriticalAddonsOnly"
+          operator: "Exists"
+    vCenter:
+      host: "vsphere.suse"
+      port: 443
+      insecureFlag: "1"
+      clusterId: "Cluster1"
+      datacenters: "Datacenter1"
+      username: "terraform-kubernetes@vsphere.local"
+      password: "Suse1234!"
+      configSecret:
+        name: "vsphere-config-secret"
+        generate: true
+        configTemplate: |
+          [Global]
+          cluster-id = {{ required ".Values.vCenter.clusterId must be provided" (default .Values.vCenter.clusterId .Values.global.cattle.clusterId) | quote }}
+          user = {{ .Values.vCenter.username | quote }}
+          password = {{ .Values.vCenter.password | quote }}
+          port = {{ .Values.vCenter.port | quote }}
+          insecure-flag = {{ .Values.vCenter.insecureFlag | quote }}
+    
+          [VirtualCenter {{ .Values.vCenter.host | quote }}]
+          datacenters = {{ .Values.vCenter.datacenters | quote }}
+    
+    storageClass:
+      enabled: true
+      name: "vsphere"
+      isDefault: false
+      allowVolumeExpansion: true
+      storagePolicyName: ""
+      datastoreURL: ""
+

@@ -1,0 +1,12 @@
+apiVersion: resources.cattle.io/v1
+kind: Backup
+metadata:
+  name: rancher-backup-one-time
+  annotations:
+    {}
+  labels:
+    {}
+spec:
+  resourceSetName: rancher-resource-set
+  retentionCount: 10
+

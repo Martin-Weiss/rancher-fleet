@@ -1,0 +1,3 @@
+defaultNamespace: cattle-logging-system
+helm:
+  releaseName: rke-logging

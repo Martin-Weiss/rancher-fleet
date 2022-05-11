@@ -1,0 +1,33 @@
+defaultNamespace: cattle-logging-system
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "100.1.1+up3.17.3"
+  chart: rancher-logging-crd
+  releaseName: rancher-logging-crd
+  values:
+targetCustomizations:
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+      stage: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.1+up3.17.3"
+    values:
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod

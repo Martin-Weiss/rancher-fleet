@@ -1,0 +1,13 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  name: syslog01.suse
+  namespace: cattle-logging-system
+spec:
+  filters:
+  - record_transformer:
+      records:
+      - custom-cluster-based-hostname: rke-test
+  globalOutputRefs:
+  - syslog01.suse
+

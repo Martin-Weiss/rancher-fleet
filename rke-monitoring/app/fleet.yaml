@@ -1,0 +1,363 @@
+defaultNamespace: cattle-monitoring-system
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "100.1.2+up19.0.3"
+  chart: rancher-monitoring
+  releaseName: rancher-monitoring
+  values:
+    global:
+      cattle:
+        clusterName: rancher
+      rbac:
+        ## Create RBAC resources for ServiceAccounts and users 
+        ##
+        create: true
+    
+        userRoles:
+          ## Create default user ClusterRoles to allow users to interact with Prometheus CRs, ConfigMaps, and Secrets
+          create: true
+          ## Aggregate default user ClusterRoles into default k8s ClusterRoles
+          aggregateToDefaultRoles: true
+    
+        pspEnabled: true
+    alertmanager:
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
+          nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
+          nginx.ingress.kubernetes.io/auth-type: basic
+      secret:
+        cleanupOnUninstall: true
+      alertmanagerSpec:
+        alertmanagerConfigNamespaceSelector:
+          matchExpressions:
+            - {key: noalertmanagerconfig, operator: DoesNotExist}
+        useExistingSecret: true
+        secrets:
+        - alertmanager-rancher-monitoring-alertmanager
+        configSecret: alertmanager-rancher-monitoring-alertmanager
+    grafana:
+      adminPassword: suse1234
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+      persistence:
+        accessModes:
+        - ReadWriteOnce
+        enabled: true
+        size: 1G
+        storageClassName: longhorn
+        subPath: null
+        type: statefulset
+      grafana.ini:
+        # users:
+        #   auto_assign_org_role: Viewer
+        auth:
+          disable_login_form: false
+        auth.anonymous:
+          enabled: true
+          org_role: Viewer
+        auth.ldap:
+          enabled: true
+          allow_sign_up: true
+        config_file:
+        - /etc/grafana/ldap.toml
+      ldap:
+        enabled: true
+        # `existingSecret` is a reference to an existing secret containing the ldap configuration
+        # for Grafana in a key `ldap-toml`.
+        existingSecret: "rancher-monitoring-grafana-ldap"
+      sidecar:
+        dashboards:
+          searchNamespace: ALL
+          provider:
+            allowUiUpdates: true
+            disableDelete: false
+        datasources:
+          searchNamespace: ALL
+          provider:
+            disableDelete: false
+            allowUiUpdates: true
+      initChownData:
+        enabled: false
+    prometheus:
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
+          nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
+          nginx.ingress.kubernetes.io/auth-type: basic
+      prometheusSpec:
+        podMonitorNamespaceSelector:
+          matchExpressions:
+            - {key: nopodmonitor, operator: DoesNotExist}
+        podMonitorSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+        ruleNamespaceSelector:
+          matchExpressions:
+            - {key: norule, operator: DoesNotExist}
+        ruleSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorNamespaceSelector:
+          matchExpressions:
+            - {key: noservicemonitor, operator: DoesNotExist}
+        serviceMonitorSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
+        resources:
+          limits:
+            cpu: 2
+            memory: 3000Mi
+          requests:
+            cpu: 1
+            memory: 2000Mi
+        retentionSize: 10GiB
+        storageSpec:
+         volumeClaimTemplate:
+           spec:
+             storageClassName: longhorn
+             accessModes: ["ReadWriteOnce"]
+             resources:
+               requests:
+                 storage: 25Gi
+    prometheus-node-exporter:
+      resources:
+        limits:
+          cpu: 1
+          memory: 100Mi
+        requests:
+          cpu: 500m
+          memory: 60Mi
+    rke2ControllerManager:
+      enabled: true
+    rke2Etcd:
+      enabled: true
+      clients:
+        tolerations:
+        - effect: NoSchedule
+          key: cattle.io/os
+          operator: Equal
+          value: linux
+        - effect: NoExecute
+          operator: Exists
+        - effect: NoSchedule
+          operator: Exists
+    rke2Proxy:
+      enabled: true
+    rke2Scheduler:
+      enabled: true
+    ingressNginx:
+      enabled: true
+      namespace: kube-system
+      service:
+        selector:
+          app: rke2-ingress-nginx
+
+diff:
+  comparePatches:
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: MutatingWebhookConfiguration
+    name: rancher-monitoring-admission
+    operations:
+    - {"op":"remove", "path":"/webhooks"}
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: ValidatingWebhookConfiguration
+    name: rancher-monitoring-admission
+    operations:
+    - {"op":"remove", "path":"/webhooks"}
+
+targetCustomizations:
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.2+up19.0.3"
+    values:
+      global:
+        cattle:
+          clusterName: rke-test
+      alertmanager:
+        alertmanagerSpec:
+          externalUrl: "https://alertmanager.rke-test.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-test-issuer
+          hosts:
+          - alertmanager.rke-test.suse
+          tls:
+          - secretName: alertmanager-general-tls
+            hosts:
+            - alertmanager.rke-test.suse
+      prometheus:
+        prometheusSpec:
+          baseURL: "https://prometheus.rke-test.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-test-issuer
+          hosts:
+          - prometheus.rke-test.suse
+          tls:
+          - secretName: prometheus-general-tls
+            hosts:
+            - prometheus.rke-test.suse
+      grafana:
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: rke-test-issuer
+          hosts:
+          - grafana.rke-test.suse
+          tls:
+          - secretName: grafana-general-tls
+            hosts:
+            - grafana.rke-test.suse
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.2+up19.0.3"
+    values:
+      global:
+        cattle:
+          clusterName: rke-int
+      alertmanager:
+        alertmanagerSpec:
+          externalUrl: "https://alertmanager.rke-int.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-int-issuer
+          hosts:
+          - alertmanager.rke-int.suse
+          tls:
+          - secretName: alertmanager-general-tls
+            hosts:
+            - alertmanager.rke-int.suse
+      prometheus:
+        prometheusSpec:
+          baseURL: "https://prometheus.rke-int.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-int-issuer
+          hosts:
+          - prometheus.rke-int.suse
+          tls:
+          - secretName: prometheus-general-tls
+            hosts:
+            - prometheus.rke-int.suse
+      grafana:
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: rke-int-issuer
+          hosts:
+          - grafana.rke-int.suse
+          tls:
+          - secretName: grafana-general-tls
+            hosts:
+            - grafana.rke-int.suse
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+      stage: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.2+up19.0.3"
+    values:
+      global:
+        cattle:
+          clusterName: rke-prod
+      alertmanager:
+        alertmanagerSpec:
+          externalUrl: "https://alertmanager.rke-prod.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-prod-issuer
+          hosts:
+          - alertmanager.rke-prod.suse
+          tls:
+          - secretName: alertmanager-general-tls
+            hosts:
+            - alertmanager.rke-prod.suse
+      prometheus:
+        prometheusSpec:
+          baseURL: "https://prometheus.rke-prod.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rke-test-issuer
+          hosts:
+          - prometheus.rke-prod.suse
+          tls:
+          - secretName: prometheus-general-tls
+            hosts:
+            - prometheus.rke-prod.suse
+      grafana:
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: rke-prod-issuer
+          hosts:
+          - grafana.rke-prod.suse
+          tls:
+          - secretName: grafana-general-tls
+            hosts:
+            - grafana.rke-prod.suse
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
+- name: local
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "100.1.2+up19.0.3"
+    values:
+      global:
+        cattle:
+          clusterName: rancher
+      alertmanager:
+        alertmanagerSpec:
+          externalUrl: "https://alertmanager.rancher.suse/"
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rancher-issuer
+          hosts:
+          - alertmanager.rancher.suse
+          tls:
+          - secretName: alertmanager-general-tls
+            hosts:
+            - alertmanager.rancher.suse
+      prometheus:
+        prometheusSpec:
+          baseURL: "https://prometheus.rancher.suse/"
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: vsphere
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: rancher-issuer
+          hosts:
+          - prometheus.rancher.suse
+          tls:
+          - secretName: prometheus-general-tls
+            hosts:
+            - prometheus.rancher.suse
+      grafana:
+        persistence:
+          storageClassName: vsphere
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: rkeancher-issuer
+          hosts:
+          - grafana.rancher.suse
+          tls:
+          - secretName: grafana-general-tls
+            hosts:
+            - grafana.rancher.suse
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local

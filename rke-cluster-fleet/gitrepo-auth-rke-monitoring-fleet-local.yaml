@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitrepo-auth-rke-monitoring
+  namespace: fleet-local
+type: kubernetes.io/basic-auth
+data:
+  username: cmFuY2hlcg==
+  password: SGF2bVN2VTdtS3hiVXJVRFNYLVQ=
