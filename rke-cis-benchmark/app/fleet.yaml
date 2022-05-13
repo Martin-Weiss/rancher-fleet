@@ -2,7 +2,7 @@ defaultNamespace: cis-operator-system
 helm:
   repo: https://susemanager.suse/pub/helm
   chart: rancher-cis-benchmark
-  version: "2.0.3"
+  version: "2.0.4"
   releaseName: rancher-cis-benchmark
   values:
     tolerations:
@@ -15,7 +15,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "2.0.3"
+    version: "2.0.4"
     values:
   clusterSelector:
     matchLabels:
@@ -23,7 +23,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "2.0.3"
+    version: "2.0.4"
     values:
   clusterSelector:
     matchLabels:
@@ -32,7 +32,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "2.0.3"
+    version: "2.0.4"
     values:
   clusterSelector:
     matchLabels:
@@ -40,7 +40,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "2.0.3"
+    version: "2.0.4"
     values:
   clusterSelector:
     matchLabels:
