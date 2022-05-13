@@ -38,6 +38,14 @@ helm:
         secrets:
         - alertmanager-rancher-monitoring-alertmanager
         configSecret: alertmanager-rancher-monitoring-alertmanager
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 5Gi
     grafana:
       adminPassword: suse1234
       ingress:
@@ -320,6 +328,10 @@ targetCustomizations:
       alertmanager:
         alertmanagerSpec:
           externalUrl: "https://alertmanager.rancher.suse/"
+          storage:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: vsphere
         ingress:
           annotations:
             cert-manager.io/cluster-issuer: rancher-issuer
