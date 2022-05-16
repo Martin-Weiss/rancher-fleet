@@ -1,0 +1,9 @@
+apiVersion: cis.cattle.io/v1
+kind: ClusterScanProfile
+metadata:
+  name: rke2-cis-1.6-profile-hardened-custom
+spec:
+  benchmarkVersion: rke2-cis-1.6-hardened
+  skipTests:
+  - 5.1.5 #as we have applications running already we can not disable the setting automountServiceAccountToken to false in all default service accounts, now
+  - 5.3.1 #in version 2.0.4 cilium is detect as false positive so disabling this test for the cluster that has cilium - see https://github.com/rancher/cis-operator/issues/154 
