@@ -1,0 +1,27 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: loki
+  namespace: cattle-logging-system
+spec:
+  loki:
+    configure_kubernetes_labels: true
+    extract_kubernetes_labels: true
+    insecure_tls: false
+    ca_cert:
+      mountFrom:
+        secretKeyRef:
+          key: ca.crt
+          name: loki-target-basic-auth
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: loki-target-basic-auth
+          # url: https://loki.rke-test.suse
+    url: http://loki-distributed-gateway.loki.svc.cluster.local
+    username:
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: loki-target-basic-auth

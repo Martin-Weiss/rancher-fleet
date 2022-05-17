@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: loki-metrics
+  namespace: loki
+spec:
+  ingress:
+  - ports:
+    - port: 3100
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: loki-distributed
+      app.kubernetes.io/name: loki-distributed
+  policyTypes:
+  - Ingress

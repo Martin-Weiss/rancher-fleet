@@ -1,0 +1,43 @@
+defaultNamespace: loki
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "0.48.3"
+  chart: loki-distributed
+  releaseName: loki-distributed
+targetCustomizations:
+- name: rke-test
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "0.48.3"
+    valuesFiles:
+    - loki-distributed-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "0.48.3"
+    valuesFiles:
+    - loki-distributed-rke-int-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "0.48.3"
+    valuesFiles:
+    - loki-distributed-rke-prod-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
+- name: local
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "0.48.3"
+    valuesFiles:
+    - loki-distributed-rancher-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local

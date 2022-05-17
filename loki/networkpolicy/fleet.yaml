@@ -1,0 +1,3 @@
+defaultNamespace: loki
+helm:
+  releaseName: loki-distributed-networkpolicy

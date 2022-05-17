@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-loki
+  namespace: loki
+  labels:
+    grafana_datasource: "1"
+data:
+  datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Loki
+      type: loki
+      url: http://loki-distributed-gateway.loki.svc.cluster.local
+      isDefault: false
+      basicAuth: true
+      basicAuthUser: admin
+      basicAuthPassword: suse1234
