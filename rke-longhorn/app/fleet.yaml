@@ -43,7 +43,8 @@ helm:
       defaultDataPath: ~
       defaultDataLocality: ~
       replicaSoftAntiAffinity: ~
-      storageOverProvisioningPercentage: ~
+      #storageOverProvisioningPercentage: ~ # default is 200 in 1.2.4
+      storageOverProvisioningPercentage: 400
       storageMinimalAvailablePercentage: ~
       upgradeChecker: false
       defaultReplicaCount: ~
