@@ -296,7 +296,7 @@ ingester:
     # -- Enable creating PVCs which is required when using boltdb-shipper
     enabled: true
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
@@ -370,7 +370,7 @@ distributor:
 # Configuration for the querier
 querier:
   # -- Number of replicas for the querier
-  replicas: 3
+  replicas: 2
   autoscaling:
     # -- Enable autoscaling for the querier, this is only used if `queryIndex.enabled: true`
     enabled: false
@@ -433,7 +433,7 @@ querier:
     # -- Enable creating PVCs for the querier cache
     enabled: true
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
@@ -838,7 +838,7 @@ compactor:
     # -- Enable creating PVCs for the compactor
     enabled: true
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
@@ -915,7 +915,7 @@ ruler:
     # -- Enable creating PVCs for the ruler
     enabled: false
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
@@ -1027,7 +1027,7 @@ indexGateway:
     # -- Enable creating PVCs which is required when using boltdb-shipper
     enabled: true
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.

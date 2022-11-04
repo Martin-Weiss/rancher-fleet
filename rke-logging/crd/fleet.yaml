@@ -1,7 +1,7 @@
 defaultNamespace: cattle-logging-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "100.1.2+up3.17.4"
+  version: "100.1.3+up3.17.7"
   chart: rancher-logging-crd
   releaseName: rancher-logging-crd
   values:
@@ -9,7 +9,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.2+up3.17.4"
+    version: "100.1.3+up3.17.7"
     values:
   clusterSelector:
     matchLabels:
@@ -17,7 +17,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.2+up3.17.4"
+    version: "100.1.3+up3.17.7"
     values:
   clusterSelector:
     matchLabels:
@@ -26,7 +26,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.2+up3.17.4"
+    version: "100.1.3+up3.17.7"
     values:
   clusterSelector:
     matchLabels:
@@ -34,7 +34,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.2+up3.17.4"
+    version: "100.1.3+up3.17.7"
     values:
   clusterSelector:
     matchLabels:

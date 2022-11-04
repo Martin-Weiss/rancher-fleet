@@ -1,7 +1,7 @@
 defaultNamespace: ceph-csi-rbd
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "3.5.1"
+  version: "3.7.2"
   chart: ceph-csi-rbd
   releaseName: ceph-csi-rbd
   values:
@@ -22,7 +22,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.5.1"
+    version: "3.7.2"
     values:
       provisioner:
         replicaCount: 3
@@ -32,7 +32,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.5.1"
+    version: "3.7.2"
     values:
       provisioner:
         replicaCount: 3
@@ -42,7 +42,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.5.1"
+    version: "3.7.2"
     values:
       provisioner:
         replicaCount: 3
@@ -52,7 +52,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.5.1"
+    version: "3.7.2"
     values:
       provisioner:
         replicaCount: 3

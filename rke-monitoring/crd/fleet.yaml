@@ -1,7 +1,7 @@
 defaultNamespace: cattle-monitoring-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "100.1.0+up19.0.3"
+  version: "100.1.3+up19.0.3"
   chart: rancher-monitoring-crd
   releaseName: rancher-monitoring-crd
   values:
@@ -9,7 +9,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.0+up19.0.3"
+    version: "100.1.3+up19.0.3"
     values:
   clusterSelector:
     matchLabels:
@@ -17,7 +17,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.0+up19.0.3"
+    version: "100.1.3+up19.0.3"
     values:
   clusterSelector:
     matchLabels:
@@ -25,7 +25,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.0+up19.0.3"
+    version: "100.1.3+up19.0.3"
     values:
   clusterSelector:
     matchLabels:
@@ -34,7 +34,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.1.0+up19.0.3"
+    version: "100.1.3+up19.0.3"
     values:
   clusterSelector:
     matchLabels:
