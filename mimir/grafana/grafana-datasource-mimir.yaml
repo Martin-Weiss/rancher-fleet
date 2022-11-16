@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-mimir
+  namespace: mimir
+  labels:
+    grafana_datasource: "1"
+data:
+  mimir-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Mimir
+      type: prometheus
+      url: http://mimir-distributed-nginx.mimir.svc.cluster.local:80/prometheus/
+      isDefault: false
+      jsonData:
+        timeInterval: 30s

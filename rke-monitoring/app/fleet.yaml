@@ -201,6 +201,8 @@ targetCustomizations:
       prometheus:
         prometheusSpec:
           baseURL: "https://prometheus.rke-test.suse/"
+          remoteWrite:
+          - url: http://mimir-distributed-nginx.mimir.svc.cluster.local:80/api/v1/push
         ingress:
           annotations:
             cert-manager.io/cluster-issuer: rke-test-issuer
@@ -210,6 +212,7 @@ targetCustomizations:
           - secretName: prometheus-general-tls
             hosts:
             - prometheus.rke-test.suse
+
       grafana:
         ingress:
           enabled: true

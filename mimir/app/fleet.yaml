@@ -1,0 +1,13 @@
+defaultNamespace: mimir
+helm:
+  releaseName: mimir-distributed
+  chart: mimir-distributed
+  version: 3.3.0
+  repo: https://susemanager.suse/pub/helm
+targetCustomizations:
+- name: rke-test
+  helm:
+    valuesFiles:
+    - mimir-distributed-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
