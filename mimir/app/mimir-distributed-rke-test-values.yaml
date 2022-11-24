@@ -137,6 +137,7 @@ mimir:
           insecure_skip_verify: true
       tsdb:
         dir: /data/tsdb
+        retention_period: 24h
 
     {{- if .Values.enterprise.enabled }}
     cluster_name: "{{ .Release.Name }}"
@@ -584,7 +585,7 @@ ingester:
       - ReadWriteOnce
 
     # Ingester data Persistent Volume size
-    size: 2Gi
+    size: 4Gi
 
     # Subdirectory of Ingester data Persistent Volume to mount
     # Useful if the volume's root directory is not empty

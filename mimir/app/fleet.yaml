@@ -11,3 +11,4 @@ targetCustomizations:
     - mimir-distributed-rke-test-values.yaml
   clusterSelector:
     matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
