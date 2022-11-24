@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitrepo-auth-kubewarden
+  namespace: fleet-default
+type: kubernetes.io/basic-auth
+data:
+  username: cmFuY2hlcg==
+  password: eWp1bkdwYnNWanZUWkV0VkREQlg=

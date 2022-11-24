@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitrepo-auth-jaeger
+  namespace: fleet-local
+type: kubernetes.io/basic-auth
+data:
+  username: cmFuY2hlcg==
+  password: VEF4VWZEdlM2ODNBZkFtOVBzaFI=
