@@ -1,0 +1,3 @@
+defaultNamespace: s3gw
+helm:
+  releaseName: s3gw

@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: s3gw-psp-role
+  namespace: s3gw
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - system-unrestricted-psp
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+

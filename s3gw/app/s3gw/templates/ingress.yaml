@@ -1,0 +1,71 @@
+{{ if .Values.ingress.enabled }}
+---
+# TLS Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: '{{ .Chart.Name }}-tls'
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "s3gw.labels" . | indent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: rke-test-issuer
+spec:
+  tls:
+    - hosts:
+        - '{{ .Values.hostname }}'
+        - '*.{{ .Values.hostname }}'
+      secretName: 'certificates-{{ .Values.hostname }}'
+  rules:
+    - host: '{{ .Values.hostname }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Chart.Name }}-svc'
+                port:
+                  number: 80
+    - host: '*.{{ .Values.hostname }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Chart.Name }}-svc'
+                port:
+                  number: 80
+{{- if .Values.ui.enabled }}
+---
+# UI TLS Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: '{{ .Chart.Name }}-ui-tls'
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "s3gw.labels" . | indent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: rke-test-issuer
+spec:
+  tls:
+    - hosts:
+        - '{{ .Values.ui.hostname }}'
+      secretName: 'certificates-{{ .Values.ui.hostname }}'
+  rules:
+    - host: '{{ .Values.ui.hostname }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Chart.Name }}-ui-svc'
+                port:
+                  number: 80
+{{- end }}
+{{- end }}

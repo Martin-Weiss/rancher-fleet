@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitrepo-auth-s3gw
+  namespace: fleet-default
+type: kubernetes.io/basic-auth
+data:
+  username: cmFuY2hlcg==
+  password: cWpyX0RjeVF5enpEX1Zkc1N6eGk=

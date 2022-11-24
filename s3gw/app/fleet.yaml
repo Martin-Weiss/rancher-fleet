@@ -1,0 +1,12 @@
+defaultNamespace: s3gw
+helm:
+  releaseName: s3gw-app
+  chart: ./s3gw
+targetCustomizations:
+- name: rke-test
+  helm:
+    valuesFiles:
+    - s3gw-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
