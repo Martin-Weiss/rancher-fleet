@@ -1,0 +1,8 @@
+# workaround as kubewarden-controller can not use a cluster issuer as of v1.3.0 / 22.11.2022
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kubewarden-issuer
+  namespace: kubewarden
+spec:
+  selfSigned: {}

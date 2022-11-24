@@ -1,0 +1,33 @@
+defaultNamespace: kubewarden
+helm:
+  releaseName: kubewarden-registry
+targetCustomizations:
+- name: local
+  yaml:
+    overlays:
+      - local
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local
+- name: rke-test
+  yaml:
+    overlays:
+      - rke-test
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  yaml:
+    overlays:
+      - rke-int
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  yaml:
+    overlays:
+      - rke-prod
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
+

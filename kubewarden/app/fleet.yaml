@@ -1,0 +1,35 @@
+defaultNamespace: kubewarden
+helm:
+  releaseName: kubewarden-controller
+  chart: kubewarden-controller
+  version: 1.2.4
+  repo: https://susemanager.suse/pub/helm
+targetCustomizations:
+- name: local
+  helm:
+    valuesFiles:
+    - kubewarden-controller-local-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local
+- name: rke-test
+  helm:
+    valuesFiles:
+    - kubewarden-controller-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    valuesFiles:
+    - kubewarden-controller-rke-int-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    valuesFiles:
+    - kubewarden-controller-rke-prod-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
