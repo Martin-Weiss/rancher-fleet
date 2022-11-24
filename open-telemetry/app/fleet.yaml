@@ -1,0 +1,35 @@
+defaultNamespace: open-telemetry
+helm:
+  releaseName: open-telemetry-operator
+  chart: opentelemetry-operator
+  version: 0.18.3
+  repo: https://susemanager.suse/pub/helm
+targetCustomizations:
+- name: local
+  helm:
+    valuesFiles:
+    - opentelemetry-operator-local-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local
+- name: rke-test
+  helm:
+    valuesFiles:
+    - opentelemetry-operator-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    valuesFiles:
+    - opentelemetry-operator-rke-int-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    valuesFiles:
+    - opentelemetry-operator-rke-prod-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
