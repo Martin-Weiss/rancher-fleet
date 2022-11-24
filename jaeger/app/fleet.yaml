@@ -1,0 +1,35 @@
+defaultNamespace: jaeger
+helm:
+  releaseName: jaeger-operator
+  chart: jaeger-operator
+  version: 2.37.0
+  repo: https://susemanager.suse/pub/helm
+targetCustomizations:
+- name: local
+  helm:
+    valuesFiles:
+    - jaeger-operator-local-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local
+- name: rke-test
+  helm:
+    valuesFiles:
+    - jaeger-operator-rke-test-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    valuesFiles:
+    - jaeger-operator-rke-int-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    valuesFiles:
+    - jaeger-operator-rke-prod-values.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
