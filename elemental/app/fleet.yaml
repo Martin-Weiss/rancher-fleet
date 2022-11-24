@@ -1,0 +1,16 @@
+defaultNamespace: cattle-elemental-system
+helm:
+  repo: https://susemanager.suse/pub/helm
+  version: "0.6.3"
+  chart: elemental-operator
+  releaseName: elemental-operator
+targetCustomizations:
+- name: local
+  helm:
+    repo: https://susemanager.suse/pub/helm
+    version: "0.6.3"
+    valuesFiles:
+    - elemental-operator-0.6.3.values-local.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: local

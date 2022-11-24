@@ -1,0 +1,3 @@
+defaultNamespace: cattle-elemental-system
+helm:
+  releaseName: elemental-roles

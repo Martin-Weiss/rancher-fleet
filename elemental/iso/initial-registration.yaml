@@ -1,0 +1,25 @@
+elemental:
+  registration:
+    url: https://rancher.suse/elemental/registration/lnzchlg7kgj2z7mnwnwlq87n2x2t48ptm59dm9tqlcd5wqkzgc9gl9
+    ca-cert: |-
+      -----BEGIN CERTIFICATE-----
+      MIIDhzCCAm+gAwIBAgIUVS8hv/sK6r15ZjVf/Zz/AQdoqjAwDQYJKoZIhvcNAQEL
+      BQAwUzELMAkGA1UEBhMCREUxGzAZBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzEN
+      MAsGA1UECgwEU1VTRTEYMBYGA1UEAwwPcmVnaXN0cnkwMS5zdXNlMB4XDTIxMDMy
+      NDE0MTMzM1oXDTMxMDEzMTE0MTMzM1owUzELMAkGA1UEBhMCREUxGzAZBgNVBAgM
+      EkJhZGVuLVd1ZXJ0dGVtYmVyZzENMAsGA1UECgwEU1VTRTEYMBYGA1UEAwwPcmVn
+      aXN0cnkwMS5zdXNlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqpHI
+      1l8C83ON0MGkKA/s+bfJnFjBrHdeHoGbxnxqDk63cXLWIejI5QmUNGIKlGUpLnwl
+      It6QDtK5DRXfxR70MRDWu8p7r2yc5Vwrj/z0GqdTFFxsu+o832fukJQLAVTt2O1k
+      bH7PDzxsz9yewTNS5dRKmk27+kRjqIvudvUo2+LC/DmMpZiaXDXf60tgdHGhv38n
+      ZCqj6S2I/zh1pk2FqCz1ShQRJ8zAist/RLlO77vU30o1pHaIbEjKBj6I6O7SX6SO
+      NOBdDQ7zUEKmtmADVTQaDNBw1aJBpUtOYKAWlZyrwzmgXLFXPYcJLq7HEi9RdF2O
+      9P7SN/toZW5vsyXqxwIDAQABo1MwUTAdBgNVHQ4EFgQUlqMA2BU9MN9HRH7ebcqj
+      VjGxt6owHwYDVR0jBBgwFoAUlqMA2BU9MN9HRH7ebcqjVjGxt6owDwYDVR0TAQH/
+      BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAE9/UQ1qSi3932Lq6OJ48NkSa12V0
+      ezxE7fgDvm4wWK5J83yToNMp6K0uO3PfKWko7+ancgT3n2+gw5DO4/9YUplkszzo
+      KISVWnh+ILDHCjhzKgJNJP/zpa5bWkrvTa+WYcXqxMndYsokwd9sI/gYUtCMMngp
+      4VBOPlephUpUriB+sT6e/ODszXawLXNpM1oww2k0DOoxrF+KOMldVuqo/LXHOElR
+      amXoZIEHPRiXltNGg6NdyeSgMX0qugYyNpHRnwvwVqa9+76cOFfrQqRqq8ueeZY3
+      T7s2fY/AJ5Eg66wfhxSm8rNf31TWCz8eaqlTm5kd5Fzf2vwZp84pnDmLRg==
+      -----END CERTIFICATE-----
