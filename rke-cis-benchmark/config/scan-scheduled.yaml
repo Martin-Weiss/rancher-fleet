@@ -4,7 +4,7 @@ metadata:
   name: scan-scheduled
   namespace: cis-operator-system 
 spec:
-  scanProfileName: rke2-cis-1.6-profile-hardened-custom
+  scanProfileName: rke2-cis-1.23-profile-hardened
   scheduledScanConfig:
     cronSchedule: 17 3 * * 0
     retentionCount: 4
