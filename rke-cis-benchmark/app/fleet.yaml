@@ -2,20 +2,30 @@ defaultNamespace: cis-operator-system
 helm:
   repo: https://susemanager.suse/pub/helm
   chart: rancher-cis-benchmark
-  version: "3.0.0"
+  version: "4.0.0"
   releaseName: rancher-cis-benchmark
   values:
+    image:
+      cisoperator:
+        repository: registry.rancher.com/rancher/cis-operator
+      securityScan:
+        repository: registry.rancher.com/rancher/security-scan
+      sonobuoy:
+        repository: registry.rancher.com/rancher/mirrored-sonobuoy-sonobuoy
     tolerations:
       - effect: NoExecute
         key: CriticalAddonsOnly
         value: "true"
     alerts:
       enabled: true
+    global:
+      kubectl:
+        repository: registry.rancher.com/rancher/kubectl
 targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.0.0"
+    version: "4.0.0"
     values:
   clusterSelector:
     matchLabels:
@@ -23,7 +33,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.0.0"
+    version: "4.0.0"
     values:
   clusterSelector:
     matchLabels:
@@ -32,7 +42,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.0.0"
+    version: "4.0.0"
     values:
   clusterSelector:
     matchLabels:
@@ -40,7 +50,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "3.0.0"
+    version: "4.0.0"
     values:
   clusterSelector:
     matchLabels:
