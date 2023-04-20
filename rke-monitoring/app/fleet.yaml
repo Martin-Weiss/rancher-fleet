@@ -1,13 +1,17 @@
 defaultNamespace: cattle-monitoring-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "101.0.0+up19.0.3"
+  version: 102.0.0+up40.1.2
   chart: rancher-monitoring
   releaseName: rancher-monitoring
   values:
     global:
       cattle:
         clusterName: rancher
+        psp:
+          enabled: true
+        systemDefaultRegistry: "registry.rancher.com"
+
       rbac:
         ## Create RBAC resources for ServiceAccounts and users 
         ##
@@ -20,6 +24,7 @@ helm:
           aggregateToDefaultRoles: true
     
         pspEnabled: true
+
     alertmanager:
       ingress:
         enabled: true
@@ -110,6 +115,7 @@ helm:
         - secretName: grafana-general-tls
           hosts:
           - grafana.rancher.suse
+
     prometheus:
       ingress:
         enabled: true
@@ -118,7 +124,15 @@ helm:
           nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
           nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
           nginx.ingress.kubernetes.io/auth-type: basic
+          cert-manager.io/cluster-issuer: rancher-issuer
+        hosts:
+        - prometheus.rancher.suse
+        tls:
+        - secretName: prometheus-general-tls
+          hosts:
+          - prometheus.rancher.suse
       prometheusSpec:
+        baseURL: "https://prometheus.rancher.suse/"
         podMonitorNamespaceSelector:
           matchExpressions:
             - {key: nopodmonitor, operator: DoesNotExist}
@@ -137,7 +151,7 @@ helm:
         resources:
           limits:
             cpu: 2
-            memory: 4000Mi
+            memory: 6000Mi
           requests:
             cpu: 1
             memory: 3000Mi
@@ -145,7 +159,7 @@ helm:
         storageSpec:
          volumeClaimTemplate:
            spec:
-             storageClassName: longhorn
+             storageClassName: vsphere
              accessModes: ["ReadWriteOnce"]
              resources:
                requests:
@@ -204,7 +218,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "101.0.0+up19.0.3"
+    version: "102.0.0+up40.1.2"
     values:
       global:
         cattle:
@@ -253,7 +267,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "101.0.0+up19.0.3"
+    version: "102.0.0+up40.1.2"
     values:
       global:
         cattle:
@@ -300,7 +314,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "101.0.0+up19.0.3"
+    version: "102.0.0+up40.1.2"
     values:
       global:
         cattle:
@@ -346,7 +360,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "101.0.0+up19.0.3"
+    version: "102.0.0+up40.1.2"
     values:
       global:
         cattle:
