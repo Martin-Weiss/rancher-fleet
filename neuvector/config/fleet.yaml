@@ -1,0 +1,3 @@
+defaultNamespace: neuvector
+helm:
+  releaseName: neuvector-config

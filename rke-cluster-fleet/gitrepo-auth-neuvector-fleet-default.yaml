@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitrepo-auth-neuvector
+  namespace: fleet-default
+type: kubernetes.io/basic-auth
+data:
+  username: cmFuY2hlcg==
+  password: NUZ6elZZTnlRekFLWG93andjUHU=
