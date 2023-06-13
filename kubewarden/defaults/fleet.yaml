@@ -2,8 +2,10 @@ defaultNamespace: kubewarden
 helm:
   releaseName: kubewarden-defaults
   chart: kubewarden-defaults
-  version: 1.6.0
+  version: 1.6.1
   repo: https://susemanager.suse/pub/helm
+  valuesFiles:
+  - kubewarden-defaults-local-values.yaml
 targetCustomizations:
 - name: local
   helm:

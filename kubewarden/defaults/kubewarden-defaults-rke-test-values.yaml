@@ -23,7 +23,7 @@ policyServer:
   replicaCount: 1
   image:
     # The registry is defined in the common.cattle.systemDefaultRegistry value
-    repository: "ghcr.io/kubewarden/policy-server"
+    repository: "kubewarden/policy-server"
     tag: "v1.6.0"
   serviceAccountName: policy-server
   # verificationConfig: your_configmap
