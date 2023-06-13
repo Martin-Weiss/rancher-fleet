@@ -1,3 +1,3 @@
-defaultNamespace: neuvector
+defaultNamespace: cattle-neuvector-system
 helm:
   releaseName: neuvector-config
