@@ -103,7 +103,7 @@ controller:
       caFile: ca.crt # must be the same CA for all internal.
   federation:
     mastersvc:
-      type:
+      type: ClusterIP
       # Federation Master Ingress
       ingress:
         enabled: true
@@ -137,7 +137,7 @@ controller:
           #  -----BEGIN PRIVATE KEY-----
           #  -----END PRIVATE KEY-----
     managedsvc:
-      type:
+      type: ClusterIP
       # Federation Managed Ingress
       ingress:
         enabled: true
@@ -244,6 +244,8 @@ enforcer:
       key: node-role.kubernetes.io/master
     - effect: NoSchedule
       key: node-role.kubernetes.io/control-plane
+    - effect: NoExecute
+      key: CriticalAddonsOnly
   resources: {}
     # limits:
     #   cpu: 400m
