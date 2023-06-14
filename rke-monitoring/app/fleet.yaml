@@ -1,12 +1,13 @@
 defaultNamespace: cattle-monitoring-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: 102.0.0+up40.1.2
+  version: 102.0.1+up40.1.2
   chart: rancher-monitoring
   releaseName: rancher-monitoring
   values:
     global:
       cattle:
+        clusterId: local
         clusterName: rancher
         psp:
           enabled: true
@@ -172,34 +173,117 @@ helm:
         requests:
           cpu: 500m
           memory: 60Mi
+
     rke2ControllerManager:
       enabled: true
+      metricsPort: 10257 # default to secure port as of k8s >= 1.22
+      component: kube-controller-manager
+      clients:
+        metrics:
+          enabled: true
+        https:
+          enabled: true
+          insecureSkipVerify: true
+          useServiceAccountCredentials: true
+        port: 10011
+        useLocalhost: true
+        nodeSelector:
+          node-role.kubernetes.io/master: "true"
+        tolerations:
+          - effect: "NoExecute"
+            operator: "Exists"
+          - effect: "NoSchedule"
+            operator: "Exists"
+      kubeVersionOverrides:
+      - constraint: "< 1.22"
+        values:
+          metricsPort: 10252 # default to insecure port in k8s < 1.22
+          clients:
+            https:
+              enabled: false
+              insecureSkipVerify: false
+              useServiceAccountCredentials: false
+
     rke2Etcd:
       enabled: true
+      metricsPort: 2381
+      component: kube-etcd
       clients:
+        metrics:
+          enabled: true
+        port: 10014
+        useLocalhost: true
+        nodeSelector:
+          node-role.kubernetes.io/etcd: "true"
         tolerations:
+        - effect: "NoExecute"
+          operator: "Exists"
+        - effect: "NoSchedule"
+          operator: "Exists"
         - effect: NoSchedule
           key: cattle.io/os
           operator: Equal
           value: linux
-        - effect: NoExecute
-          operator: Exists
-        - effect: NoSchedule
-          operator: Exists
+
     rke2Proxy:
       enabled: true
+      metricsPort: 10249
+      component: kube-proxy
+      clients:
+        metrics:
+          enabled: true
+        port: 10013
+        useLocalhost: true
+        tolerations:
+          - effect: "NoExecute"
+            operator: "Exists"
+          - effect: "NoSchedule"
+            operator: "Exists"
+
     rke2Scheduler:
       enabled: true
+      clients:
+        metrics:
+          enabled: true
+        https:
+          enabled: true
+          insecureSkipVerify: true
+          useServiceAccountCredentials: true
+        port: 10012
+        useLocalhost: true
+        nodeSelector:
+          node-role.kubernetes.io/master: "true"
+        tolerations:
+          - effect: "NoExecute"
+            operator: "Exists"
+          - effect: "NoSchedule"
+            operator: "Exists"
+      kubeVersionOverrides:
+      - constraint: "< 1.22"
+        values:
+          metricsPort: 10251 # default to insecure port in k8s < 1.22
+          clients:
+            https:
+              enabled: false
+              insecureSkipVerify: false
+              useServiceAccountCredentials: false
+
     ingressNginx:
       enabled: true
       namespace: kube-system
       service:
         selector:
           app: rke2-ingress-nginx
+
     defaultRules:
       create: true
       rules:
         kubeApiserver: false
+
+    hardenedKubelet:
+      enabled: false
+    hardenedNodeExporter:
+      enabled: false
 
 diff:
   comparePatches:
@@ -218,10 +302,11 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up40.1.2"
+    version: "102.0.1+up40.1.2"
     values:
       global:
         cattle:
+          clusterId: rke-test
           clusterName: rke-test
       alertmanager:
         alertmanagerSpec:
@@ -267,10 +352,11 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up40.1.2"
+    version: "102.0.1+up40.1.2"
     values:
       global:
         cattle:
+          clusterId: rke-int
           clusterName: rke-int
       alertmanager:
         alertmanagerSpec:
@@ -314,10 +400,11 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up40.1.2"
+    version: "102.0.1+up40.1.2"
     values:
       global:
         cattle:
+          clusterId: rke-prod
           clusterName: rke-prod
       alertmanager:
         alertmanagerSpec:
@@ -360,10 +447,11 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up40.1.2"
+    version: "102.0.1+up40.1.2"
     values:
       global:
         cattle:
+          clusterId: local
           clusterName: rancher
       alertmanager:
         alertmanagerSpec:
