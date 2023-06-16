@@ -1,6 +1,8 @@
 defaultNamespace: cert-manager
 helm:
   releaseName: cert-manager-config
+dependsOn:
+  - name: rke-cert-manager-app
 targetCustomizations:
 - name: local
   yaml:

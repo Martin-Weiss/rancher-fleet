@@ -1,7 +1,7 @@
 defaultNamespace: cert-manager
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "1.11.1"
+  version: "1.12.1"
   chart: cert-manager
   releaseName: cert-manager
   values:
@@ -18,7 +18,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "1.11.1"
+    version: "1.12.1"
     values:
   clusterSelector:
     matchLabels:
@@ -26,7 +26,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "1.11.1"
+    version: "1.12.1"
     values:
   clusterSelector:
     matchLabels:
@@ -35,7 +35,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "1.11.1"
+    version: "1.12.1"
     values:
   clusterSelector:
     matchLabels:
@@ -43,7 +43,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "1.11.1"
+    version: "1.12.1"
     values:
   clusterSelector:
     matchLabels:
