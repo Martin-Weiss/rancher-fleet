@@ -1,3 +1,0 @@
-defaultNamespace: jaeger
-helm:
-  releaseName: jaeger-roles

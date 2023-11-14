@@ -1,15 +1,25 @@
 defaultNamespace: cattle-neuvector-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "102.0.2+up2.4.5"
+  version: "102.0.5+up2.6.4"
   chart: neuvector
   releaseName: neuvector
+
+
+diff:         
+  comparePatches:
+  - apiVersion: cert-manager.io/v1
+    kind: Certificate
+    name: neuvector-internal
+    namespace: cattle-neuvector-system
+    operations:
+    - {"op":"remove", "path":"/spec/duration"}
 
 targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up2.4.5"
+    version: "102.0.5+up2.6.4"
     valuesFiles:
     - rke-test-neuvector-values.yaml 
   clusterSelector:
@@ -18,7 +28,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up2.4.5"
+    version: "102.0.5+up2.6.4"
     valuesFiles:
     - rke-int-neuvector-values.yaml 
   clusterSelector:
@@ -28,7 +38,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up2.4.5"
+    version: "102.0.5+up2.6.4"
     valuesFiles:
     - rke-prod-neuvector-values.yaml 
   clusterSelector:
@@ -37,7 +47,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up2.4.5"
+    version: "102.0.5+up2.6.4"
     valuesFiles:
     - local-neuvector-values.yaml 
   clusterSelector:

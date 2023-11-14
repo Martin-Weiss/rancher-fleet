@@ -1,10 +1,14 @@
 defaultNamespace: cattle-resources-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "102.0.0+up3.1.0"
+  version: "102.0.2+up3.1.2"
   chart: rancher-backup
   releaseName: rancher-backup
   values:
+    global:
+      cattle:
+        psp:
+          enabled: false # PSP enablement should default to false
     image:
       repository: registry.rancher.com/rancher/backup-restore-operator
     s3:

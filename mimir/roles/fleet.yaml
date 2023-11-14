@@ -1,3 +1,0 @@
-defaultNamespace: mimir
-helm:
-  releaseName: mimir-roles

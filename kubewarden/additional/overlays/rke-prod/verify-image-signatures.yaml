@@ -4,7 +4,7 @@ metadata:
   name: verify-image-signatures
 spec:
   mode: monitor
-  module: registry://registry01.suse/rke-prod/ghcr.io/kubewarden/policies/verify-image-signatures:v0.2.1
+  module: registry://registry01.suse/rke-prod/ghcr.io/kubewarden/policies/verify-image-signatures:v0.2.8
   rules:
   - apiGroups: ["", "apps", "batch"]
     apiVersions: ["v1"]

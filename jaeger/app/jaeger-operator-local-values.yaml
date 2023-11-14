@@ -4,7 +4,6 @@
 
 image:
   repository: jaegertracing/jaeger-operator
-  tag: 1.39.0
   pullPolicy: IfNotPresent
   imagePullSecrets: []
 
@@ -48,7 +47,7 @@ jaeger:
 rbac:
   # Specifies whether RBAC resources should be created
   create: true
-  pspEnabled: true
+  pspEnabled: false
   clusterRole: true
 
 service:

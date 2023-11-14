@@ -4,9 +4,9 @@ metadata:
   name: psa-label-enforcer-restricted
   namespace: ''
   annotations:
-    artifacthub/pkg: psa-label-enforcer/psa-label-enforcer/0.1.1
+    artifacthub/pkg: psa-label-enforcer/psa-label-enforcer/0.1.2
 spec:
-  module: registry01.suse/rke-test/ghcr.io/kubewarden/policies/psa-label-enforcer:v0.1.1
+  module: registry01.suse/rke-test/ghcr.io/kubewarden/policies/psa-label-enforcer:v0.1.2
   rules:
     - apiGroups:
         - ''

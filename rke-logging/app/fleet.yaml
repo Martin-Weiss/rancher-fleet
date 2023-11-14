@@ -1,10 +1,14 @@
 defaultNamespace: cattle-logging-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "102.0.0+up3.17.10"
+  version: "102.0.1+up3.17.10"
   chart: rancher-logging
   releaseName: rancher-logging
   values:
+    global:
+      cattle:
+        psp:
+          enabled: false
     image:
       repository: registry.rancher.com/rancher/mirrored-banzaicloud-logging-operator
     images:
@@ -25,7 +29,7 @@ helm:
         enabled: true
     rbac:
       psp:
-        enabled: true
+        enabled: false
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -63,7 +67,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up3.17.10"
+    version: "102.0.1+up3.17.10"
     values:
   clusterSelector:
     matchLabels:
@@ -71,7 +75,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up3.17.10"
+    version: "102.0.1+up3.17.10"
     values:
   clusterSelector:
     matchLabels:
@@ -80,7 +84,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up3.17.10"
+    version: "102.0.1+up3.17.10"
     values:
   clusterSelector:
     matchLabels:
@@ -88,7 +92,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.0+up3.17.10"
+    version: "102.0.1+up3.17.10"
     values:
   clusterSelector:
     matchLabels:

@@ -2,7 +2,7 @@ defaultNamespace: kubewarden
 helm:
   releaseName: kubewarden-controller
   chart: kubewarden-controller
-  version: 1.5.3
+  version: 2.0.3
   repo: https://susemanager.suse/pub/helm
 targetCustomizations:
 - name: local

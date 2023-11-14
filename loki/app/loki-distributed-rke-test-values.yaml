@@ -64,6 +64,9 @@ loki:
     server:
       http_listen_port: 3100
 
+    common:
+      compactor_address: http://{{ include "loki.compactorFullname" . }}:3100
+
     distributor:
       ring:
         kvstore:
@@ -192,7 +195,7 @@ serviceAccount:
 # RBAC configuration
 rbac:
   # -- If enabled, a PodSecurityPolicy is created
-  pspEnabled: true
+  pspEnabled: false
 
 # ServiceMonitor configuration
 serviceMonitor:
@@ -243,6 +246,7 @@ prometheusRule:
 ingester:
   # -- Number of replicas for the ingester
   replicas: 3
+  maxUnavailable: 2
   image:
     # -- The Docker registry for the ingester image. Overrides `loki.image.registry`
     registry: null
@@ -308,6 +312,7 @@ ingester:
 distributor:
   # -- Number of replicas for the distributor
   replicas: 3
+  maxUnavailable: 2
   autoscaling:
     # -- Enable autoscaling for the distributor
     enabled: false
@@ -371,6 +376,7 @@ distributor:
 querier:
   # -- Number of replicas for the querier
   replicas: 3
+  maxUnavailable: 2
   autoscaling:
     # -- Enable autoscaling for the querier, this is only used if `queryIndex.enabled: true`
     enabled: false
@@ -445,6 +451,7 @@ querier:
 queryFrontend:
   # -- Number of replicas for the query-frontend
   replicas: 3
+  maxUnavailable: 2
   autoscaling:
     # -- Enable autoscaling for the query-frontend
     enabled: false
@@ -562,6 +569,7 @@ gateway:
   enabled: true
   # -- Number of replicas for the gateway
   replicas: 3
+  maxUnavailable: 2
   # -- Enable logging of 2xx and 3xx HTTP requests
   verboseLogging: true
   autoscaling:
@@ -864,6 +872,7 @@ ruler:
   enabled: true
   # -- Number of replicas for the ruler
   replicas: 3
+  maxUnavailable: 2
   image:
     # -- The Docker registry for the ruler image. Overrides `loki.image.registry`
     registry: null
@@ -976,6 +985,7 @@ indexGateway:
   enabled: true
   # -- Number of replicas for the index-gateway
   replicas: 3
+  maxUnavailable: 2
   image:
     # -- The Docker registry for the index-gateway image. Overrides `loki.image.registry`
     registry: null
@@ -1079,6 +1089,7 @@ memcachedChunks:
   enabled: true
   # -- Number of replicas for memcached-chunks
   replicas: 3
+  maxUnavailable: 2
   # -- The name of the PriorityClass for memcached-chunks pods
   priorityClassName: null
   # -- Annotations for memcached-chunks pods
@@ -1122,6 +1133,7 @@ memcachedFrontend:
   enabled: true
   # -- Number of replicas for memcached-frontend
   replicas: 3
+  maxUnavailable: 2
   # -- The name of the PriorityClass for memcached-frontend pods
   priorityClassName: null
   # -- Annotations for memcached-frontend pods
@@ -1165,6 +1177,7 @@ memcachedIndexQueries:
   enabled: true
   # -- Number of replicas for memcached-index-queries
   replicas: 3
+  maxUnavailable: 2
   # -- The name of the PriorityClass for memcached-index-queries pods
   priorityClassName: null
   # -- Annotations for memcached-index-queries pods
@@ -1208,6 +1221,7 @@ memcachedIndexWrites:
   enabled: true
   # -- Number of replicas for memcached-index-writes
   replicas: 3
+  maxUnavailable: 2
   # -- The name of the PriorityClass for memcached-index-writes pods
   priorityClassName: null
   # -- Annotations for memcached-index-writes pods

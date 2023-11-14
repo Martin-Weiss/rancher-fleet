@@ -2,7 +2,7 @@ defaultNamespace: mimir
 helm:
   releaseName: mimir-distributed
   chart: mimir-distributed
-  version: 3.3.0
+  version: 5.1.2
   repo: https://susemanager.suse/pub/helm
 targetCustomizations:
 - name: rke-test
