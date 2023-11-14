@@ -1,7 +1,10 @@
 defaultNamespace: longhorn-system
+
+dependsOn: rke-longhorn-crd
+
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "100.2.3+up1.3.2"
+  version: "102.3.0+up1.5.1"
   chart: longhorn
   releaseName: longhorn
   values:
@@ -10,7 +13,7 @@ helm:
     # Declare variables to be passed into your templates.
     global:
       cattle:
-        systemDefaultRegistry: ""
+        systemDefaultRegistry: "registry.rancher.com"
 
     service:
       ui:
@@ -127,7 +130,7 @@ helm:
       #   certificate:
     
     # Configure a pod security policy in the Longhorn namespace to allow privileged pods
-    enablePSP: true
+    enablePSP: false
     
     ## Specify override namespace, specifically this is useful for using longhorn as sub-chart
     ## and its release namespace is not the `longhorn-system`
@@ -137,7 +140,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
       defaultSettings:
         backupTarget: s3://rke-test@de-bw-1/
@@ -152,7 +155,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
       defaultSettings:
         backupTarget: s3://rke-int@de-bw-1/
@@ -168,7 +171,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
       defaultSettings:
         backupTarget: s3://rke-prod@de-bw-1/
@@ -183,7 +186,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
       defaultSettings:
         backupTarget: s3://rancher@de-bw-1/

@@ -1,15 +1,41 @@
 defaultNamespace: longhorn-system
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "100.2.3+up1.3.2"
+  version: "102.3.0+up1.5.1"
   chart: longhorn-crd
   releaseName: longhorn-crd
   values:
+
+diff:
+  comparePatches:
+  - apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: engineimages.longhorn.io
+    operations:
+    - {"op":"remove", "path":"/status/acceptedNames/kind"}
+    - {"op":"remove", "path":"/status/acceptedNames/plural"}
+    - {"op":"remove", "path":"/status/conditions"}
+    - {"op":"remove", "path":"/status/storedVersions"}
+  - apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: nodes.longhorn.io
+    - {"op":"remove", "path":"/status/acceptedNames/kind"}
+    - {"op":"remove", "path":"/status/acceptedNames/plural"}
+    - {"op":"remove", "path":"/status/conditions"}
+    - {"op":"remove", "path":"/status/storedVersions"}
+  - apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: volumes.longhorn.io
+    - {"op":"remove", "path":"/status/acceptedNames/kind"}
+    - {"op":"remove", "path":"/status/acceptedNames/plural"}
+    - {"op":"remove", "path":"/status/conditions"}
+    - {"op":"remove", "path":"/status/storedVersions"}
+
 targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
   clusterSelector:
     matchLabels:
@@ -17,7 +43,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
   clusterSelector:
     matchLabels:
@@ -26,7 +52,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "100.2.3+up1.3.2"
+    version: "102.3.0+up1.5.1"
     values:
   clusterSelector:
     matchLabels:
