@@ -36,7 +36,7 @@ controller:
       maxUnavailable: 0
   image:
     repository: rancher/mirrored-neuvector-controller
-    tag: 5.2.2-s1
+    tag: 5.2.4
     hash:
   replicas: 3
   disruptionbudget: 0
@@ -241,7 +241,7 @@ enforcer:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-enforcer
-    tag: 5.2.2-s1
+    tag: 5.2.4
     hash:
   updateStrategy:
     type: RollingUpdate
@@ -276,7 +276,7 @@ manager:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-manager
-    tag: 5.2.2-s1
+    tag: 5.2.4
     hash:
   priorityClassName:
   env:
