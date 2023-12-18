@@ -256,6 +256,7 @@ enforcer:
       key: node-role.kubernetes.io/control-plane
     - effect: NoExecute
       key: CriticalAddonsOnly
+      value: "true"
   resources:
     {}
     # limits:
