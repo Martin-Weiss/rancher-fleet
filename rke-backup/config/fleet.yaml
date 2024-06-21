@@ -1,3 +1,5 @@
 defaultNamespace: cattle-resources-system
+dependsOn:
+  - name: rke-backup-crd
 helm:
   releaseName: rke-backup-config
