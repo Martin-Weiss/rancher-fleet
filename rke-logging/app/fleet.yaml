@@ -1,29 +1,17 @@
 defaultNamespace: cattle-logging-system
+dependsOn:
+  - name: rke-logging-crd
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: "102.0.1+up3.17.10"
+  version: "103.1.1+up4.4.0"
   chart: rancher-logging
   releaseName: rancher-logging
   values:
     global:
       cattle:
+        systemDefaultRegistry: "registry.rancher.com"
         psp:
           enabled: false
-    image:
-      repository: registry.rancher.com/rancher/mirrored-banzaicloud-logging-operator
-    images:
-      config_reloader:
-        repository: registry.rancher.com/rancher/mirrored-jimmidyson-configmap-reload
-      fluentbit:
-        repository: registry.rancher.com/rancher/mirrored-fluent-fluent-bit
-      nodeagent_fluentbit:
-        os: "windows"
-        repository: registry.rancher.com/rancher/fluent-bit
-      fluentbit_debug:
-        repository: registry.rancher.com/rancher/mirrored-fluent-fluent-bit
-      fluentd:
-        repository: registry.rancher.com/rancher/mirrored-banzaicloud-fluentd
-
     additionalLoggingSources:
       rke2:
         enabled: true
@@ -42,6 +30,12 @@ helm:
       - effect: NoExecute
         key: CriticalAddonsOnly
         value: "true"
+      - key: node-role.kubernetes.io/control-plane
+        operator: "Exists"
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/etcd
+        operator: "Exists"
+        effect: NoExecute
     fluentd:
       resources:
         limits:
@@ -67,7 +61,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.1+up3.17.10"
+    version: "103.1.1+up4.4.0"
     values:
   clusterSelector:
     matchLabels:
@@ -75,7 +69,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.1+up3.17.10"
+    version: "103.1.1+up4.4.0"
     values:
   clusterSelector:
     matchLabels:
@@ -84,7 +78,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.1+up3.17.10"
+    version: "103.1.1+up4.4.0"
     values:
   clusterSelector:
     matchLabels:
@@ -92,7 +86,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.1+up3.17.10"
+    version: "103.1.1+up4.4.0"
     values:
   clusterSelector:
     matchLabels:

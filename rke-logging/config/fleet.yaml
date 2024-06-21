@@ -1,4 +1,6 @@
 defaultNamespace: cattle-logging-system
+dependsOn:
+  - name: rke-logging-crd
 helm:
   releaseName: rancher-logging-config
 targetCustomizations:
