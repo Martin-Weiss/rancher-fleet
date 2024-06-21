@@ -1,4 +1,6 @@
 defaultNamespace: cert-manager
+dependsOn:
+  - name: rke-cert-manager-app
 helm:
   releaseName: cert-manager-config
 dependsOn:
