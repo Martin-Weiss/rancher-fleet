@@ -1,4 +1,6 @@
 defaultNamespace: cattle-monitoring-system
+dependsOn:
+  - name: rke-monitoring-crd
 helm:
   releaseName: rancher-monitoring-config
 targetCustomizations:

@@ -1,7 +1,9 @@
 defaultNamespace: cattle-monitoring-system
+dependsOn:
+  - name: rke-monitoring-crd
 helm:
   repo: https://susemanager.suse/pub/helm
-  version: 102.0.2+up40.1.2
+  version: 103.1.1+up45.31.1
   chart: rancher-monitoring
   releaseName: rancher-monitoring
   values:
@@ -285,6 +287,10 @@ helm:
     hardenedNodeExporter:
       enabled: false
 
+    prometheus-adapter:
+      rules:
+        default: false
+
 diff:
   comparePatches:
   - apiVersion: admissionregistration.k8s.io/v1
@@ -302,7 +308,7 @@ targetCustomizations:
 - name: rke-test
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up40.1.2"
+    version: "103.1.1+up45.31.1"
     values:
       global:
         cattle:
@@ -352,7 +358,7 @@ targetCustomizations:
 - name: rke-int
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up40.1.2"
+    version: "103.1.1+up45.31.1"
     values:
       global:
         cattle:
@@ -400,7 +406,7 @@ targetCustomizations:
 - name: rke-prod
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up40.1.2"
+    version: "103.1.1+up45.31.1"
     values:
       global:
         cattle:
@@ -447,7 +453,7 @@ targetCustomizations:
 - name: local
   helm:
     repo: https://susemanager.suse/pub/helm
-    version: "102.0.2+up40.1.2"
+    version: "103.1.1+up45.31.1"
     values:
       global:
         cattle:
@@ -491,7 +497,7 @@ targetCustomizations:
         ingress:
           enabled: true
           annotations:
-            cert-manager.io/cluster-issuer: rkeancher-issuer
+            cert-manager.io/cluster-issuer: rancher-issuer
           hosts:
           - grafana.rancher.suse
           tls:
