@@ -5,6 +5,7 @@
 openshift: false
 
 registry: registry.rancher.com
+tag: 5.3.3
 oem:
 rbac: true # required for rancher authentication
 serviceAccount: neuvector
@@ -36,7 +37,7 @@ controller:
       maxUnavailable: 0
   image:
     repository: rancher/mirrored-neuvector-controller
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   replicas: 3
   disruptionbudget: 0
@@ -58,6 +59,7 @@ controller:
                     - neuvector-controller-pod
             topologyKey: "kubernetes.io/hostname"
   tolerations: []
+  topologySpreadConstraints: []
   nodeSelector:
     {}
     # key1: value1
@@ -110,6 +112,11 @@ controller:
   federation:
     mastersvc:
       type: ClusterIP
+      loadBalancerIP:
+      clusterIP:
+      nodePort: # Must be a valid NodePort: 30000-32767
+      externalTrafficPolicy:
+      internalTrafficPolicy:
       # Federation Master Ingress
       ingress:
         enabled: true
@@ -144,6 +151,11 @@ controller:
           #  -----END PRIVATE KEY-----
     managedsvc:
       type: ClusterIP
+      loadBalancerIP:
+      clusterIP:
+      nodePort: # Must be a valid NodePort: 30000-32767
+      externalTrafficPolicy:
+      internalTrafficPolicy:
       # Federation Managed Ingress
       ingress:
         enabled: true
@@ -241,7 +253,7 @@ enforcer:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-enforcer
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   updateStrategy:
     type: RollingUpdate
@@ -277,7 +289,7 @@ manager:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-manager
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   priorityClassName:
   env:
@@ -341,6 +353,7 @@ manager:
     # requests:
     #   cpu: 100m
     #   memory: 2280Mi
+  topologySpreadConstraints: []
   affinity: {}
   podLabels: {}
   podAnnotations: {}
@@ -356,7 +369,7 @@ cve:
     enabled: false
     image:
       repository: rancher/mirrored-neuvector-registry-adapter
-      tag: 0.1.1-s1
+      tag: 0.1.2
       hash:
     priorityClassName:
     resources:
@@ -383,7 +396,7 @@ cve:
     certificate:
       secret:
       keyFile: tls.key
-      pemFile: tls.pem
+      pemFile: tls.crt
     harbor:
       protocol: https
       secretName:
@@ -445,6 +458,14 @@ cve:
       hash:
     schedule: "0 0 * * *"
     priorityClassName:
+    resources:
+      {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 256Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 256Mi
     podLabels: {}
     podAnnotations: {}
     nodeSelector:
@@ -475,6 +496,7 @@ cve:
       # requests:
       #   cpu: 100m
       #   memory: 2280Mi
+    topologySpreadConstraints: []
     affinity: {}
     podLabels: {}
     podAnnotations: {}
@@ -492,9 +514,6 @@ cve:
         pemFile: tls.crt
         caFile: ca.crt # must be the same CA for all internal.
 
-docker:
-  path: /var/run/docker.sock
-
 resources:
   {}
   # limits:
@@ -503,6 +522,13 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 2280Mi
+
+runtimePath:
+
+# The following runtime type and socket location are deprecated after 5.3.0.
+# If the socket path is not at the default location, use above 'runtimePath' to specify the location.
+docker:
+  path: /var/run/docker.sock
 
 k3s:
   enabled: true

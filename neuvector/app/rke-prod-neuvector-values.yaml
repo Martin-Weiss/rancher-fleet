@@ -5,6 +5,7 @@
 openshift: false
 
 registry: registry.rancher.com
+tag: 5.3.3
 oem:
 rbac: true # required for rancher authentication
 serviceAccount: neuvector
@@ -12,7 +13,7 @@ leastPrivilege: false
 
 global: # required for rancher authentication (https://<Rancher_URL>/)
   cattle:
-    url: "https://rancher.suse"
+    url: "https://rke-prod.suse"
     systemDefaultRegistry: "registry.rancher.com"
     psp:
       enabled: false # PSP enablement should default to false
@@ -36,7 +37,7 @@ controller:
       maxUnavailable: 0
   image:
     repository: rancher/mirrored-neuvector-controller
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   replicas: 3
   disruptionbudget: 0
@@ -58,6 +59,7 @@ controller:
                     - neuvector-controller-pod
             topologyKey: "kubernetes.io/hostname"
   tolerations: []
+  topologySpreadConstraints: []
   nodeSelector:
     {}
     # key1: value1
@@ -110,10 +112,15 @@ controller:
   federation:
     mastersvc:
       type: ClusterIP
+      loadBalancerIP:
+      clusterIP:
+      nodePort: # Must be a valid NodePort: 30000-32767
+      externalTrafficPolicy:
+      internalTrafficPolicy:
       # Federation Master Ingress
       ingress:
         enabled: true
-        host: neuvector-mastersvc.rancher.suse  # MUST be set, if ingress is enabled
+        host: neuvector-mastersvc.rke-prod.suse  # MUST be set, if ingress is enabled
         ingressClassName: ""
         path: "/" # or this could be "/api", but might need "rewrite-target" annotation
         annotations:
@@ -121,7 +128,7 @@ controller:
           cert-manager.io/cluster-issuer: rke-prod-issuer
           # ingress.kubernetes.io/rewrite-target: /
         tls: true
-        secretName: neuvector-mastersvc.rancher.suse
+        secretName: neuvector-mastersvc.rke-prod.suse
       annotations: {}
       # OpenShift Route configuration
       # Controller supports HTTPS only, so edge termination not supported
@@ -144,10 +151,15 @@ controller:
           #  -----END PRIVATE KEY-----
     managedsvc:
       type: ClusterIP
+      loadBalancerIP:
+      clusterIP:
+      nodePort: # Must be a valid NodePort: 30000-32767
+      externalTrafficPolicy:
+      internalTrafficPolicy:
       # Federation Managed Ingress
       ingress:
         enabled: true
-        host: neuvector-managedsvc.rancher.suse  # MUST be set, if ingress is enabled
+        host: neuvector-managedsvc.rke-prod.suse  # MUST be set, if ingress is enabled
         ingressClassName: ""
         path: "/" # or this could be "/api", but might need "rewrite-target" annotation
         annotations:
@@ -155,7 +167,7 @@ controller:
           cert-manager.io/cluster-issuer: rke-prod-issuer
           # ingress.kubernetes.io/rewrite-target: /
         tls: true
-        secretName: neuvector-managedsvc.rancher.suse
+        secretName: neuvector-managedsvc.rke-prod.suse
       annotations: {}
       # OpenShift Route configuration
       # Controller supports HTTPS only, so edge termination not supported
@@ -178,7 +190,7 @@ controller:
           #  -----END PRIVATE KEY-----
   ingress:
     enabled: true
-    host: neuvector-controller.rancher.suse # MUST be set, if ingress is enabled
+    host: neuvector-controller.rke-prod.suse # MUST be set, if ingress is enabled
     ingressClassName: ""
     path: "/" # or this could be "/api", but might need "rewrite-target" annotation
     annotations:
@@ -186,7 +198,7 @@ controller:
       cert-manager.io/cluster-issuer: rke-prod-issuer
       # ingress.kubernetes.io/rewrite-target: /
     tls: true
-    secretName: neuvector-controller.rancher.suse
+    secretName: neuvector-controller.rke-prod.suse
   resources:
     {}
     # limits:
@@ -241,7 +253,7 @@ enforcer:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-enforcer
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   updateStrategy:
     type: RollingUpdate
@@ -277,7 +289,7 @@ manager:
   enabled: true
   image:
     repository: rancher/mirrored-neuvector-manager
-    tag: 5.2.4
+    tag: 5.3.3
     hash:
   priorityClassName:
   env:
@@ -320,7 +332,7 @@ manager:
     pemFile: tls.pem
   ingress:
     enabled: true
-    host: neuvector-manager.rancher.suse # MUST be set, if ingress is enabled
+    host: neuvector-manager.rke-prod.suse # MUST be set, if ingress is enabled
     ingressClassName: ""
     path: "/"
     annotations:
@@ -332,7 +344,7 @@ manager:
       # nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
       # only for end-to-end tls conf - ingress-nginx accepts backend self-signed cert
     tls: true
-    secretName: neuvector-manager.rancher.suse # my-tls-secret
+    secretName: neuvector-manager.rke-prod.suse # my-tls-secret
   resources:
     {}
     # limits:
@@ -341,6 +353,7 @@ manager:
     # requests:
     #   cpu: 100m
     #   memory: 2280Mi
+  topologySpreadConstraints: []
   affinity: {}
   podLabels: {}
   podAnnotations: {}
@@ -356,7 +369,7 @@ cve:
     enabled: false
     image:
       repository: rancher/mirrored-neuvector-registry-adapter
-      tag: 0.1.1-s1
+      tag: 0.1.2
       hash:
     priorityClassName:
     resources:
@@ -383,7 +396,7 @@ cve:
     certificate:
       secret:
       keyFile: tls.key
-      pemFile: tls.pem
+      pemFile: tls.crt
     harbor:
       protocol: https
       secretName:
@@ -445,6 +458,14 @@ cve:
       hash:
     schedule: "0 0 * * *"
     priorityClassName:
+    resources:
+      {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 256Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 256Mi
     podLabels: {}
     podAnnotations: {}
     nodeSelector:
@@ -475,6 +496,7 @@ cve:
       # requests:
       #   cpu: 100m
       #   memory: 2280Mi
+    topologySpreadConstraints: []
     affinity: {}
     podLabels: {}
     podAnnotations: {}
@@ -492,9 +514,6 @@ cve:
         pemFile: tls.crt
         caFile: ca.crt # must be the same CA for all internal.
 
-docker:
-  path: /var/run/docker.sock
-
 resources:
   {}
   # limits:
@@ -503,6 +522,13 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 2280Mi
+
+runtimePath:
+
+# The following runtime type and socket location are deprecated after 5.3.0.
+# If the socket path is not at the default location, use above 'runtimePath' to specify the location.
+docker:
+  path: /var/run/docker.sock
 
 k3s:
   enabled: true

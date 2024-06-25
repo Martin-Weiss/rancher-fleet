@@ -1,4 +1,6 @@
 defaultNamespace: cattle-neuvector-system
+dependsOn:
+  - name: neuvector-crd
 helm:
   repo: https://susemanager.suse/pub/helm
   version: "103.0.4+up2.7.7"
