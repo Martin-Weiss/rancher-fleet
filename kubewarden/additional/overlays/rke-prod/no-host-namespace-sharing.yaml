@@ -1,0 +1,28 @@
+apiVersion: policies.kubewarden.io/v1
+kind: ClusterAdmissionPolicy
+metadata:
+  name: no-host-namespace-sharing
+  namespace: ''
+spec:
+  module: registry01.suse/rke-prod/ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.10
+  backgroundAudit: true
+  mode: monitor
+  mutating: false
+  namespaceSelector:
+  policyServer: default
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - pods
+  settings:
+    allow_host_ipc: false
+    allow_host_network: false
+    allow_host_pid: false
+  timeoutSeconds: 10
+

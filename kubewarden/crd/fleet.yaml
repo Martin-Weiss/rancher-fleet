@@ -2,5 +2,5 @@ defaultNamespace: kubewarden
 helm:
   releaseName: kubewarden-crds
   chart: kubewarden-crds
-  version: 1.4.4
+  version: 1.5.1
   repo: https://susemanager.suse/pub/helm

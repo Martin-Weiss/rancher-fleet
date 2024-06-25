@@ -1,3 +1,5 @@
 defaultNamespace: kubewarden
+namespaceLabels:
+  pod-security.kubernetes.io/enforce: privileged
 helm:
   releaseName: kubewarden

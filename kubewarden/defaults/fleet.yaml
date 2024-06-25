@@ -1,8 +1,12 @@
 defaultNamespace: kubewarden
+dependsOn:
+  - name: kubewarden-crd
+#  - name: kubewarden-app
+  - name: kubewarden-registry
 helm:
   releaseName: kubewarden-defaults
   chart: kubewarden-defaults
-  version: 1.6.1
+  version: 2.0.3
   repo: https://susemanager.suse/pub/helm
   valuesFiles:
   - kubewarden-defaults-local-values.yaml

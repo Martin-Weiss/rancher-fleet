@@ -4,9 +4,9 @@ metadata:
   name: psa-label-enforcer-restricted
   namespace: ''
   annotations:
-    artifacthub/pkg: psa-label-enforcer/psa-label-enforcer/0.1.2
+    artifacthub/pkg: psa-label-enforcer/psa-label-enforcer/0.1.3
 spec:
-  module: registry01.suse/rke-test/ghcr.io/kubewarden/policies/psa-label-enforcer:v0.1.2
+  module: registry01.suse/rke-test/ghcr.io/kubewarden/policies/psa-label-enforcer:v0.1.3
   rules:
     - apiGroups:
         - ''
@@ -22,7 +22,7 @@ spec:
      matchExpressions:
      - key: "kubernetes.io/metadata.name"
        operator: NotIn
-       values: [kube-system, cattle-monitoring-system, a, cattle-elemental-system, cattle-fleet-local-system, cattle-fleet-system, cattle-logging-system, cattle-monitoring-system, cattle-neuvector-system, cattle-resources-system, cattle-system, cattle-ui-plugin-system, cert-exporter, fleet-default, fleet-local, jaeger, kubewarden, nfs-subdir-external-provisioner, open-telemetry, xx]
+       values: [cattle-provisioning-capi-system, kube-system, cattle-monitoring-system, a, cattle-elemental-system, cattle-fleet-local-system, cattle-fleet-system, cattle-logging-system, cattle-monitoring-system, cattle-neuvector-system, cattle-resources-system, cattle-system, cattle-ui-plugin-system, cert-exporter, fleet-default, fleet-local, jaeger, kubewarden, nfs-subdir-external-provisioner, open-telemetry, xx, rke-update-sles, rke-upgrade-sles]
   settings:
     description: null
     modes:

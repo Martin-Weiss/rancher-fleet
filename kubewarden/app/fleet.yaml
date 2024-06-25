@@ -1,9 +1,50 @@
 defaultNamespace: kubewarden
+dependsOn:
+  - name: kubewarden-crd
+  - name: kubewarden-issuer
 helm:
   releaseName: kubewarden-controller
   chart: kubewarden-controller
-  version: 2.0.3
+  version: 2.1.0
   repo: https://susemanager.suse/pub/helm
+
+
+diff:
+  comparePatches:
+  - apiVersion: opentelemetry.io/v1alpha1
+    kind: OpenTelemetryCollector
+    name: kubewarden
+    namespace: kubewarden
+    operations:
+    - {"op":"remove", "path":"/spec/config/receivers"}
+    - {"op":"remove", "path":"/spec/config/processors"}
+    - {"op":"remove", "path":"/spec/config/exporters"}
+    - {"op":"remove", "path":"/spec/config/service"}
+
+  - apiVersion: opentelemetry.io/v1beta1
+    kind: OpenTelemetryCollector
+    name: kubewarden
+    namespace: kubewarden
+    operations:
+    - {"op":"remove", "path":"/spec/config/receivers"}
+    - {"op":"remove", "path":"/spec/config/processors"}
+    - {"op":"remove", "path":"/spec/config/exporters"}
+    - {"op":"remove", "path":"/spec/config/service"}
+
+
+      #      nonReadyResources:
+      #      - bundleState: Modified
+      #        modifiedStatus: 
+      #        - apiVersion: opentelemetry.io/v1alpha1
+      #          kind: OpenTelemetryCollector
+      #          name: kubewarden
+      #          namespace: kubewarden
+      #          patch: '{"spec":{"config":"receivers:\n  otlp:\n    protocols:\n      grpc:\nprocessors:\n  batch:\nexporters:\n  otlp/jaeger:\n    endpoint:
+      #            jaeger-operator-jaeger-collector.jaeger.svc.cluster.local:14250\n    tls:\n      insecure:
+      #            true\n  prometheus:\n    endpoint: \":8080\"\nservice:\n  pipelines:\n    metrics:\n      receivers:
+      #            [otlp]\n      processors: []\n      exporters: [prometheus]\n    traces:\n      receivers:
+      #            [otlp]\n      processors: [batch]\n      exporters: [otlp/jaeger]\n"}}'
+
 targetCustomizations:
 - name: local
   helm:

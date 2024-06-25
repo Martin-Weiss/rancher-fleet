@@ -1,0 +1,54 @@
+apiVersion: policies.kubewarden.io/v1
+kind: ClusterAdmissionPolicy
+metadata:
+  name: no-privileged-pod
+  namespace: ''
+spec:
+  module: registry01.suse/rke-test/ghcr.io/kubewarden/policies/pod-privileged:v0.3.2
+  backgroundAudit: true
+  mode: monitor
+  mutating: false
+  namespaceSelector:
+  policyServer: default
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    resources:
+    - pods
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - replicationcontrollers
+  - apiGroups:
+    - apps
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - deployments
+    - replicasets
+    - statefulsets
+    - daemonsets
+  - apiGroups:
+    - batch
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - jobs
+    - cronjobs
+  settings: null
+  timeoutSeconds: 10

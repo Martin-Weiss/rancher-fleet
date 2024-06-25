@@ -1,0 +1,27 @@
+apiVersion: policies.kubewarden.io/v1
+kind: ClusterAdmissionPolicy
+metadata:
+  name: drop-capabilities
+  namespace: ''
+spec:
+  module: registry01.suse/rke-prod/ghcr.io/kubewarden/policies/capabilities-psp:v0.1.15
+  backgroundAudit: true
+  mode: monitor
+  mutating: true
+  namespaceSelector:
+  policyServer: default
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - pods
+  settings:
+    required_drop_capabilities:
+    - ALL
+  timeoutSeconds: 10
+
