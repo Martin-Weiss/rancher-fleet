@@ -1,6 +1,5 @@
 defaultNamespace: cattle-resources-system
 helm:
-  repo: https://susemanager.suse/pub/helm
+  chart: oci://registry01.suse/helm/rancher-backup-crd
   version: "103.0.2+up4.0.2"
-  chart: rancher-backup-crd
   releaseName: rancher-backup-crd
