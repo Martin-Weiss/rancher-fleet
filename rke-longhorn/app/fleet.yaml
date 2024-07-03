@@ -1,11 +1,11 @@
 defaultNamespace: longhorn-system
 
-dependsOn: rke-longhorn-crd
+dependsOn:
+  - name: rke-longhorn-crd
 
 helm:
-  repo: https://susemanager.suse/pub/helm
-  version: "102.3.0+up1.5.1"
-  chart: longhorn
+  chart: oci://registry01.suse/helm/longhorn
+  version: "103.3.1+up1.6.2"
   releaseName: longhorn
   values:
     # Default values for longhorn.
@@ -139,8 +139,7 @@ helm:
 targetCustomizations:
 - name: rke-test
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "102.3.0+up1.5.1"
+    version: "103.3.1+up1.6.2"
     values:
       defaultSettings:
         backupTarget: s3://rke-test@de-bw-1/
@@ -154,8 +153,7 @@ targetCustomizations:
       management.cattle.io/cluster-display-name: rke-test
 - name: rke-int
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "102.3.0+up1.5.1"
+    version: "103.3.1+up1.6.2"
     values:
       defaultSettings:
         backupTarget: s3://rke-int@de-bw-1/
@@ -170,8 +168,7 @@ targetCustomizations:
       stage: rke-int
 - name: rke-prod
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "102.3.0+up1.5.1"
+    version: "103.3.1+up1.6.2"
     values:
       defaultSettings:
         backupTarget: s3://rke-prod@de-bw-1/
@@ -185,8 +182,7 @@ targetCustomizations:
       management.cattle.io/cluster-display-name: rke-prod
 - name: local
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "102.3.0+up1.5.1"
+    version: "103.3.1+up1.6.2"
     values:
       defaultSettings:
         backupTarget: s3://rancher@de-bw-1/

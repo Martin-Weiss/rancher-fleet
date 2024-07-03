@@ -6,12 +6,7 @@ diff:
   comparePatches:
   - apiVersion: longhorn.io/v1beta1
     kind: RecurringJob
-    name: dailybackup
     operations:
-    - {"op":"remove", "path":"/spec/retain"}
-  - apiVersion: longhorn.io/v1beta1
-    kind: RecurringJob
-    name: hourlysnapshot
     - {"op":"remove", "path":"/spec/retain"}
 
 targetCustomizations:
