@@ -1,3 +1,5 @@
 defaultNamespace: cert-exporter
+namespaceLabels:
+  pod-security.kubernetes.io/enforce: privileged
 helm:
   releaseName: rke-cert-exporter

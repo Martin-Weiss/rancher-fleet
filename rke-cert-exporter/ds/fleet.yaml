@@ -2,7 +2,7 @@ defaultNamespace: cert-exporter
 namespaceLabels:
   pod-security.kubernetes.io/enforce: privileged
 helm:
-  releaseName: cert-exporter
+  releaseName: cert-exporter-ds
   chart: oci://registry01.suse/helm/cert-exporter
   version: 3.6.1
   valuesFiles:
