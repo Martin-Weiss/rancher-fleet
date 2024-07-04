@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  password: S2VFbHlmZ1RoVWJNa0p0M0o5OGdrVEdScWVuSmRMVXE=
+  username: cm9ib3QtZWxlbWVudGFsLTE= 
+immutable: false
+kind: Secret
+metadata:
+  name: registryconfig-auth-registry01-elemental-1
+  namespace: fleet-default
+type: kubernetes.io/basic-auth

@@ -5,15 +5,51 @@ metadata:
   namespace: fleet-default
 spec:
   rkeConfig:
+    registries:
+      configs:
+        registry01.suse:
+          authConfigSecretName: registryconfig-auth-registry01-elemental-1
+          insecureSkipVerify: false
+      mirrors:
+        docker.io:
+          endpoint:
+            - https://registry01.suse/v2/
+          rewrite:
+            ^(?:library|)(.*): rke-test/docker.io/$1
+        registry.suse.com:
+          endpoint:
+            - https://registry01.suse/v2/
+          rewrite:
+            (.*): rke-test/registry.suse.com/$1
+        registry.rancher.com:
+          endpoint:
+            - https://registry01.suse/v2/
+          rewrite:
+            (.*): rke-test/registry.rancher.com/$1
+        registry.opensuse.org:
+          endpoint:
+            - https://registry01.suse/v2/
+          rewrite:
+            (.*): rke-test/registry.opensuse.org/$1
     machinePools:
-      - controlPlaneRole: true
+      - name: masters
+        controlPlaneRole: true
         etcdRole: true
         machineConfigRef:
           apiVersion: elemental.cattle.io/v1beta1
           kind: MachineInventorySelectorTemplate
-          name: elemental-1-selector
-        name: pool1
-        quantity: 1
+          name: elemental-1-selector-master
+        quantity: 3
+        unhealthyNodeTimeout: 0s
+        workerRole: false
+      - name: workers
+        controlPlaneRole: false
+        etcdRole: false
+        machineConfigRef:
+          apiVersion: elemental.cattle.io/v1beta1
+          kind: MachineInventorySelectorTemplate
+          name: elemental-1-selector-worker
+        quantity: 4
         unhealthyNodeTimeout: 0s
         workerRole: true
-  kubernetesVersion: v1.24.4+rke2r1
+  kubernetesVersion: v1.26.10+rke2r2

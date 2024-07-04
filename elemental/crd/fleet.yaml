@@ -1,0 +1,7 @@
+defaultNamespace: cattle-elemental-system
+helm:
+  chart: oci://registry01.suse/helm/elemental-crd
+  version: "103.3.0+up1.5.3"
+  # important: if releaseName is changed to elemental-crd or elemental-crds the elemental UI will not regocnice this as installed!
+  releaseName: elemental-operator-crds
+  takeOwnership: true

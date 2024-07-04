@@ -1,7 +1,7 @@
 apiVersion: elemental.cattle.io/v1beta1
 kind: MachineInventorySelectorTemplate
 metadata:
-  name: elemental-1-selector
+  name: elemental-1-selector-worker
   namespace: fleet-default
 spec:
   template:
@@ -11,3 +11,6 @@ spec:
           - key: cluster
             operator: In
             values: [ '1' ]
+          - key: master
+            operator: In
+            values: [ 'false' ]
