@@ -1,7 +1,25 @@
 defaultNamespace: cattle-elemental-system
+dependsOn:
+  - name: elemental-crd
 helm:
   chart: oci://registry01.suse/helm/elemental
   version: "103.3.0+up1.5.3"
   releaseName: elemental-operator
   valuesFiles:
   - values.yaml
+
+diff:
+  comparePatches:
+    #  - apiVersion: apiextensions.k8s.io/v1
+    #    kind: CustomResourceDefinition
+    #    operations:
+    #    - {"op":"remove", "path":"/status/acceptedNames/kind"}
+    #    - {"op":"remove", "path":"/status/acceptedNames/plural"}
+    #    - {"op":"remove", "path":"/status/conditions"}
+    #    - {"op":"remove", "path":"/status/storedVersions"}
+  - apiVersion: management.cattle.io/v3
+    kind: GlobalRole
+    name: elemental-operator
+    operations:
+    - {"op": "remove", "path": "/builtin"}
+

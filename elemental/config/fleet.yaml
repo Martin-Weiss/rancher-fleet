@@ -1,3 +1,5 @@
 defaultNamespace: cattle-elemental-system
+dependsOn:
+  - name: elemental-crd
 helm:
   releaseName: elemental-config
