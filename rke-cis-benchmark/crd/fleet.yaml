@@ -1,23 +1,20 @@
 defaultNamespace: cis-operator-system
 helm:
-  repo: https://susemanager.suse/pub/helm
-  chart: rancher-cis-benchmark-crd
-  version: "4.0.0"
+  chart: oci://registry01.suse/helm/rancher-cis-benchmark-crd
+  version: "5.2.0"
   releaseName: rancher-cis-benchmark-crd
   values:
 targetCustomizations:
 - name: rke-test
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "4.0.0"
+    version: "5.2.0"
     values:
   clusterSelector:
     matchLabels:
       management.cattle.io/cluster-display-name: rke-test
 - name: rke-int
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "4.0.0"
+    version: "5.2.0"
     values:
   clusterSelector:
     matchLabels:
@@ -25,16 +22,14 @@ targetCustomizations:
       stage: rke-int
 - name: rke-prod
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "4.0.0"
+    version: "5.2.0"
     values:
   clusterSelector:
     matchLabels:
       management.cattle.io/cluster-display-name: rke-prod
 - name: local
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "4.0.0"
+    version: "5.2.0"
     values:
   clusterSelector:
     matchLabels:

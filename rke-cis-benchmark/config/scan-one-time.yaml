@@ -3,5 +3,5 @@ kind: ClusterScan
 metadata:
   name: scan-one-time
 spec:
-  scanProfileName: rke2-cis-1.23-profile-hardened
+  scanProfileName: rke2-cis-1.8-profile-hardened 
   scoreWarning: pass
