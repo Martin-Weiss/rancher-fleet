@@ -1,0 +1,41 @@
+defaultNamespace: metallb
+namespaceLabels:
+  pod-security.kubernetes.io/enforce: privileged
+helm:
+  chart: oci://registry01.suse/helm/metallb
+  version: "0.14.5"
+  releaseName: metallb
+  valuesFiles:
+targetCustomizations:
+- name: rke-test
+  helm:
+    version: "0.14.5"
+    valuesFiles:
+    - values-rke-test.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-test
+- name: rke-int
+  helm:
+    version: "0.14.5"
+    valuesFiles:
+    - values-rke-int.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-int
+- name: rke-prod
+  helm:
+    version: "0.14.5"
+    valuesFiles:
+    - values-rke-prod.yaml
+  clusterSelector:
+    matchLabels:
+      management.cattle.io/cluster-display-name: rke-prod
+- name: local
+  helm:
+    version: "0.14.5"
+    valuesFiles:
+    - values-rancher.yaml
+  clusterSelector:
+    matchLabels:
+
