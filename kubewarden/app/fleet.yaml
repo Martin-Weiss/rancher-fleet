@@ -4,10 +4,8 @@ dependsOn:
   - name: kubewarden-issuer
 helm:
   releaseName: kubewarden-controller
-  chart: kubewarden-controller
-  version: 2.1.0
-  repo: https://susemanager.suse/pub/helm
-
+  chart: oci://registry01.suse/helm/kubewarden-controller
+  version: 2.2.1
 
 diff:
   comparePatches:
