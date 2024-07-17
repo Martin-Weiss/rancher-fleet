@@ -52,4 +52,4 @@ spec:
         quantity: 4
         unhealthyNodeTimeout: 0s
         workerRole: true
-  kubernetesVersion: v1.26.10+rke2r2
+  kubernetesVersion: v1.28.10+rke2r1

@@ -1,0 +1,11 @@
+apiVersion: elemental.cattle.io/v1beta1
+kind: ManagedOSVersion
+metadata:
+  name: v2.1.1-9.60-iso
+  namespace: fleet-default
+spec:
+  metadata:
+    displayName: SL Micro 6.0 v2.1.1-9.60 ISO x86_64
+    uri: registry.opensuse.org/isv/rancher/elemental/staging/containers/suse/sl-micro/6.0/baremetal-iso-image:2.1.1-9.60
+  type: iso
+  version: v2.1.1-9.60

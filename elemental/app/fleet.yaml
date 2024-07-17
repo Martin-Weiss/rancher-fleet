@@ -2,8 +2,12 @@ defaultNamespace: cattle-elemental-system
 dependsOn:
   - name: elemental-crd
 helm:
-  chart: oci://registry01.suse/helm/elemental
-  version: "103.3.0+up1.5.3"
+  # upstream
+  chart: oci://registry01.suse/helm/elemental-operator
+  version: "1.5.4"
+    # prime...
+    #chart: oci://registry01.suse/helm/elemental
+    #version: "103.3.0+up1.5.3"
   releaseName: elemental-operator
   valuesFiles:
   - values.yaml

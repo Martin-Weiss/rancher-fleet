@@ -3,3 +3,13 @@ dependsOn:
   - name: elemental-crd
 helm:
   releaseName: elemental-config
+
+diff:
+  comparePatches:
+  - apiVersion: provisioning.cattle.io/v1
+    kind: Cluster
+    name: elemental-1-cluster
+    namespace: fleet-default
+    operations:
+    - {"op": "remove", "path": "/spec"}
+
