@@ -15,6 +15,10 @@ helm:
       cattle:
         systemDefaultRegistry: "registry.rancher.com"
 
+    networkPolicies:
+      enabled: true
+      type: "rke2"
+
     service:
       ui:
         type: ClusterIP
@@ -72,7 +76,7 @@ helm:
       autoCleanupSystemGeneratedSnapshot: ~
     
     privateRegistry:
-      registryUrl: docker.io
+      registryUrl: registry.rancher.com
       registryUser: ~
       registryPasswd: ~
       registrySecret: ~
