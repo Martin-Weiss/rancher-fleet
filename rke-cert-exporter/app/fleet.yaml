@@ -7,3 +7,12 @@ helm:
   version: 3.6.1
   valuesFiles:
     - values.yaml
+diff:
+  comparePatches:
+  - apiVersion: apps/v1
+    kind: Deployment
+    name: cert-exporter-cert-manager
+    namespace: cert-exporter
+    operations:
+    - {"op": "remove", "path": "/spec"}
+
