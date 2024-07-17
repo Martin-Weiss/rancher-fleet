@@ -5,6 +5,11 @@ helm:
   chart: rancher-monitoring-crd
   releaseName: rancher-monitoring-crd
   values:
+    global:
+      cattle:
+        psp:
+          enabled: false
+        systemDefaultRegistry: "registry.rancher.com"
 targetCustomizations:
 - name: rke-test
   helm:

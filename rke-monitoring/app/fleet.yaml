@@ -74,7 +74,7 @@ helm:
         - ReadWriteOnce
         enabled: true
         size: 1G
-        storageClassName: longhorn
+        storageClassName: vsphere
         subPath: null
         type: statefulset
       grafana.ini:
@@ -329,8 +329,9 @@ targetCustomizations:
       prometheus:
         prometheusSpec:
           baseURL: "https://prometheus.rke-test.suse/"
-          remoteWrite:
-          - url: http://mimir-distributed-nginx.mimir.svc.cluster.local:80/api/v1/push
+          # required for mimir integration
+          #remoteWrite:
+          #- url: http://mimir-distributed-nginx.mimir.svc.cluster.local:80/api/v1/push
         ingress:
           annotations:
             cert-manager.io/cluster-issuer: rke-test-issuer
