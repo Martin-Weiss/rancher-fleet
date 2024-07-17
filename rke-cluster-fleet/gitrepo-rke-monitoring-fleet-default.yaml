@@ -11,6 +11,10 @@ spec:
   paths: []
   repo: https://gitlab01.suse:10443/rancher-fleet/rke-monitoring.git
   targets:
+  - name: rke-prod
+    clusterSelector:
+      matchLabels:
+        management.cattle.io/cluster-display-name: rke-prod
   - name: rke-test
     clusterSelector:
       matchLabels:
