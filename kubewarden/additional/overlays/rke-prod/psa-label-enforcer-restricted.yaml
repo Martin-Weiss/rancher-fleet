@@ -22,7 +22,7 @@ spec:
      matchExpressions:
      - key: "kubernetes.io/metadata.name"
        operator: NotIn
-       values: [cattle-provisioning-capi-system, kube-system, cattle-monitoring-system, a, cattle-elemental-system, cattle-fleet-local-system, cattle-fleet-system, cattle-logging-system, cattle-monitoring-system, cattle-neuvector-system, cattle-resources-system, cattle-system, cattle-ui-plugin-system, cert-exporter, fleet-default, fleet-local, jaeger, kubewarden, nfs-subdir-external-provisioner, open-telemetry, xx, rke-update-sles, rke-upgrade-sles]
+       values: [cattle-provisioning-capi-system, kube-system, cattle-monitoring-system, a, cattle-elemental-system, cattle-fleet-local-system, cattle-fleet-system, cattle-logging-system, cattle-monitoring-system, cattle-neuvector-system, cattle-resources-system, cattle-system, cattle-ui-plugin-system, cert-exporter, fleet-default, fleet-local, jaeger, kubewarden, nfs-subdir-external-provisioner, open-telemetry, xx, rke-update-sles, rke-upgrade-sles, cert-exporter, stackstate, metallb]
   settings:
     description: null
     modes:
