@@ -293,10 +293,10 @@ speaker:
   # frr contains configuration specific to the MetalLB FRR container,
   # for speaker running alongside FRR.
   frr:
-    enabled: false
+    enabled: true
     image:
       repository: dp.apps.rancher.io/containers/frr
-      tag: "9"
+      tag: "9.0.2-5.5"
       pullPolicy:
     metricsPort: 7473
     resources: {}
