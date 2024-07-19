@@ -1,0 +1,11 @@
+apiVersion: elemental.cattle.io/v1beta1
+kind: ManagedOSVersion
+metadata:
+  name: custom-v0.1
+  namespace: fleet-default
+spec:
+  metadata:
+    displayName: SLE Micro 6.0 custom v0.1 x86_64
+    upgradeImage: registry01.suse/elemental/micro-baremetal-os:0.1
+  type: container
+  version: v0.1
