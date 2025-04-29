@@ -2,9 +2,8 @@ defaultNamespace: cattle-monitoring-system
 dependsOn:
   - name: rke-monitoring-crd
 helm:
-  repo: https://susemanager.suse/pub/helm
-  version: 103.1.1+up45.31.1
-  chart: rancher-monitoring
+  version: 106.0.1+up66.7.1-rancher.10
+  chart: oci://registry01.suse/helm/rancher-monitoring
   releaseName: rancher-monitoring
   values:
     global:
@@ -307,8 +306,8 @@ diff:
 targetCustomizations:
 - name: rke-test
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "103.1.1+up45.31.1"
+    chart: oci://registry01.suse/helm/rancher-monitoring
+    version: "106.0.1+up66.7.1-rancher.10"
     values:
       global:
         cattle:
@@ -358,8 +357,8 @@ targetCustomizations:
       management.cattle.io/cluster-display-name: rke-test
 - name: rke-int
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "103.1.1+up45.31.1"
+    chart: oci://registry01.suse/helm/rancher-monitoring
+    version: "106.0.1+up66.7.1-rancher.10"
     values:
       global:
         cattle:
@@ -406,8 +405,8 @@ targetCustomizations:
       stage: rke-int
 - name: rke-prod
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "103.1.1+up45.31.1"
+    chart: oci://registry01.suse/helm/rancher-monitoring
+    version: "106.0.1+up66.7.1-rancher.10"
     values:
       global:
         cattle:
@@ -453,8 +452,8 @@ targetCustomizations:
       management.cattle.io/cluster-display-name: rke-prod
 - name: local
   helm:
-    repo: https://susemanager.suse/pub/helm
-    version: "103.1.1+up45.31.1"
+    chart: oci://registry01.suse/helm/rancher-monitoring
+    version: "106.0.1+up66.7.1-rancher.10"
     values:
       global:
         cattle:
